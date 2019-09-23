@@ -28,6 +28,7 @@ glm::mat4 viewMatrix2, modelMatrix2, projectionMatrix2;
 //texture 3
 ShaderProgram program3;
 glm::mat4 viewMatrix3, modelMatrix3, projectionMatrix3;
+
 float player_x = 0;
 float player_y = 0;
 float player_a = 0;
@@ -86,7 +87,7 @@ void Initialize() {
     //texture 2
     program2.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
-    playerTextureID2 = LoadTexture("Pixil1.png");
+    playerTextureID2 = LoadTexture("Pixil2.png");
     
     viewMatrix2 = glm::mat4(1.0f);
     modelMatrix2 = glm::mat4(1.0f);

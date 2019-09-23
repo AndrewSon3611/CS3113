@@ -16,6 +16,7 @@
 		959B904B232014A600852E68 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959B9048232014A600852E68 /* SDL2.framework */; };
 		959B90512320160900852E68 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 959B904E2320160900852E68 /* ShaderProgram.cpp */; };
 		959B90522320161A00852E68 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 959B90502320160900852E68 /* shaders */; };
+		95C5225B2339214500DDF377 /* Pixil2.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95AF1AAF23383ABE00FC752F /* Pixil2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,7 @@
 			dstSubfolderSpec = 6;
 			files = (
 				95944FA42332849400723977 /* Pixil1.png in CopyFiles */,
+				95C5225B2339214500DDF377 /* Pixil2.png in CopyFiles */,
 				959B90522320161A00852E68 /* shaders in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,7 +49,7 @@
 		959B904F2320160900852E68 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		959B90502320160900852E68 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		95AF1AAF23383ABE00FC752F /* Pixil2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pixil2.png; sourceTree = "<group>"; };
-		95AF1AB023383ADD00FC752F /* SDLSimple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SDLSimple; sourceTree = "<group>"; };
+		95AF1AB023383ADD00FC752F /* SDLSimple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SDLSimple; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
