@@ -69,7 +69,7 @@ void Initialize() {
     program3.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
     //player 1 - for now black boxes appear instead of white
-    player1TextureID = LoadTexture("pongplayer1.png");
+    player1.textureID = LoadTexture("pongplayer1.png");
     player1.position = glm::vec3(-3.5f, 0.0f, 0.0f);
     player1.movement = glm::vec3(0.0f, 0.0f, 0.0f);
     player1.speed = 3.0;
@@ -77,7 +77,7 @@ void Initialize() {
     player1.width = 1.5;
     
     //player 2 - for now black boxes appear instead of white
-    player2TextureID = LoadTexture("pongplayer2.png");
+    player2.textureID = LoadTexture("pongplayer2.png");
     player2.position = glm::vec3(3.5f, 0.0f, 0.0f);
     player2.movement = glm::vec3(0.0f, 0.0f, 0.0f);
     player2.speed = 3.0;
@@ -85,7 +85,7 @@ void Initialize() {
     player2.width = 1.5;
     
     //ball - currently does not load texture
-    ballTextureID = LoadTexture("pongtestball1.png");
+    ball.textureID = LoadTexture("pongtestball1.png");
     ball.position = glm::vec3(0.0f, 0.0f, 0.0f);
     ball.movement = glm::vec3(1.0f, 1.0f, 1.0f);
     ball.speed = 2.0;
@@ -111,9 +111,7 @@ void Initialize() {
     program3.SetColor(1.0f, 0.0f, 0.0f, 1.0f);
     
     glUseProgram(program1.programID);
-    glUseProgram(program2.programID);
-    glUseProgram(program3.programID);
-    
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
