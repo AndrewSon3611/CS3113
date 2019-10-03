@@ -93,7 +93,7 @@ void Initialize() {
     ball.height = 1.0;
     
     
-    
+    //ball movement
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
@@ -171,6 +171,7 @@ void ProcessInput() {
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     
    
+    //left player
     if (keys[SDL_SCANCODE_W])
     {
         if (TopCollisionDetect(&player1)==false){
@@ -184,6 +185,7 @@ void ProcessInput() {
     }
     }
     
+    //right player
     if (keys[SDL_SCANCODE_I])
     {
         if(TopCollisionDetect(&player2)==false){
