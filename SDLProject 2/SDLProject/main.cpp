@@ -73,21 +73,21 @@ void Initialize() {
     player1.position = glm::vec3(-3.5f, 0.0f, 0.0f);
     player1.movement = glm::vec3(0.0f, 0.0f, 0.0f);
     player1.speed = 3.0;
-    player1.height = 3.0;
-    player1.width = 1.5;
+    player1.height = 2.0;
+    player1.width = .65;
     
     //player 2 - for now black boxes appear instead of white
     player2.textureID = LoadTexture("pongplayer2.png");
     player2.position = glm::vec3(3.5f, 0.0f, 0.0f);
     player2.movement = glm::vec3(0.0f, 0.0f, 0.0f);
     player2.speed = 3.0;
-    player2.height = 3.0;
-    player2.width = 1.5;
+    player2.height = 2.0;
+    player2.width = .65;
     
     //ball - currently does not load texture
-    ball.textureID = LoadTexture("pongtestball1.png");
+    ball.textureID = LoadTexture("pongball.png");
     ball.position = glm::vec3(0.0f, 0.0f, 0.0f);
-    ball.movement = glm::vec3(1.0f, 1.0f, 1.0f);
+    ball.movement = glm::vec3(1.0f, 1.0f, 0.0f);
     ball.speed = 2.0;
     ball.width = 1.0;
     ball.height = 1.0;

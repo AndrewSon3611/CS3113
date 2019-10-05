@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		957118702347F9BE00708293 /* pongball.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9571186F2347F9AC00708293 /* pongball.png */; };
 		95A3E8CD2344368F00C02687 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95A3E8CC2344368F00C02687 /* Entity.cpp */; };
 		95A3E8D1234566F200C02687 /* pongplayer1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95A3E8CE234566CF00C02687 /* pongplayer1.png */; };
 		95A3E8D5234567A000C02687 /* pongplayer2.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95A3E8D42345679200C02687 /* pongplayer2.png */; };
@@ -30,6 +31,7 @@
 			files = (
 				95A3E8D72345692800C02687 /* pongtestball1.png in CopyFiles */,
 				95A3E8D5234567A000C02687 /* pongplayer2.png in CopyFiles */,
+				957118702347F9BE00708293 /* pongball.png in CopyFiles */,
 				95A3E8D1234566F200C02687 /* pongplayer1.png in CopyFiles */,
 				DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */,
 			);
@@ -38,6 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9571186F2347F9AC00708293 /* pongball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pongball.png; sourceTree = "<group>"; };
 		95A3E8CB2344368400C02687 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		95A3E8CC2344368F00C02687 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		95A3E8CE234566CF00C02687 /* pongplayer1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pongplayer1.png; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 				95A3E8CE234566CF00C02687 /* pongplayer1.png */,
 				95A3E8D62345692100C02687 /* pongtestball1.png */,
 				95A3E8D42345679200C02687 /* pongplayer2.png */,
+				9571186F2347F9AC00708293 /* pongball.png */,
 				DBDF1B5B2323DE8D007CECB1 /* glm */,
 				DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */,
 				DBDF1B592323DE8D007CECB1 /* ShaderProgram.h */,
