@@ -23,7 +23,7 @@ bool gameIsRunning = true;
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
-#define PLATFORM_COUNT 5
+#define PLATFORM_COUNT 12
 
 struct GameState {
     Entity player;
@@ -68,11 +68,12 @@ void Initialize() {
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
     state.player.width = 0.95f;
-    state.player.position = glm::vec3(0, 3, 0);
-    state.player.acceleration = glm::vec3(0, -9.81f, 0);
-    state.player.textureID = LoadTexture("me.png");
+    state.player.position = glm::vec3(0, 5, 0);
+    state.player.acceleration = glm::vec3(0, -0.81f, 0);
+    state.player.textureID = LoadTexture("playerShip1_blue.png");
     
-    GLuint tileTextureID = LoadTexture("tile.png");
+    GLuint tileTextureID = LoadTexture("platformPack_tile041.png");
+    GLuint tileTextureID2 = LoadTexture("platformPack_tile036.png");
     
     state.platform[0].textureID = tileTextureID;
     state.platform[0].position = glm::vec3(0, -3.25f, 0);
@@ -83,11 +84,32 @@ void Initialize() {
     state.platform[2].textureID = tileTextureID;
     state.platform[2].position = glm::vec3(1, -3.25f, 0);
     
-    state.platform[3].textureID = tileTextureID;
+    state.platform[3].textureID = tileTextureID2;
     state.platform[3].position = glm::vec3(3, -3.25f, 0);
     
     state.platform[4].textureID = tileTextureID;
     state.platform[4].position = glm::vec3(1, -2.25f, 0);
+    
+    state.platform[5].textureID = tileTextureID2;
+    state.platform[5].position = glm::vec3(4, -3.25f, 0);
+    
+    state.platform[6].textureID = tileTextureID;
+    state.platform[6].position = glm::vec3(2, -3.25f, 0);
+    
+    state.platform[7].textureID = tileTextureID;
+    state.platform[7].position = glm::vec3(5, -3.25f, 0);
+    
+    state.platform[8].textureID = tileTextureID;
+    state.platform[8].position = glm::vec3(5, -2.25f, 0);
+    
+    state.platform[9].textureID = tileTextureID;
+    state.platform[9].position = glm::vec3(5, -1.25f, 0);
+    
+    state.platform[10].textureID = tileTextureID;
+    state.platform[10].position = glm::vec3(5, -.25f, 0);
+    
+    state.platform[11].textureID = tileTextureID;
+    state.platform[11].position = glm::vec3(5, 0.75f, 0);
     
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
@@ -115,17 +137,7 @@ void ProcessInput() {
                 gameIsRunning = false;
                 break;
                 
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_SPACE:
-                        if (state.player.collidedBottom)
-                        {
-                            state.player.velocity.y = 5.0f;
-                        }
-                        break;
-                        
-                }
-                break;
+
         }
     }
     
