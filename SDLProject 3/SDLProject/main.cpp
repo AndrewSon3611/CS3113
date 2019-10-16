@@ -4,7 +4,6 @@
 #include <GL/glew.h>
 #endif
 
-#include <vector>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
@@ -19,15 +18,18 @@
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
+bool fail = false;
+bool success = false;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
-#define PLATFORM_COUNT 12
+#define PLATFORM_COUNT 28
 
 struct GameState {
     Entity player;
     Entity platform[PLATFORM_COUNT];
+    Entity platform2[PLATFORM_COUNT];
 };
 
 GameState state;
@@ -68,7 +70,7 @@ void Initialize() {
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
     state.player.width = 0.95f;
-    state.player.position = glm::vec3(0, 5, 0);
+    state.player.position = glm::vec3(0, 4, 0);
     state.player.acceleration = glm::vec3(0, -0.81f, 0);
     state.player.textureID = LoadTexture("playerShip1_blue.png");
     
@@ -84,14 +86,14 @@ void Initialize() {
     state.platform[2].textureID = tileTextureID;
     state.platform[2].position = glm::vec3(1, -3.25f, 0);
     
-    state.platform[3].textureID = tileTextureID2;
-    state.platform[3].position = glm::vec3(3, -3.25f, 0);
+    state.platform2[0].textureID = tileTextureID2;
+    state.platform2[0].position = glm::vec3(3, -3.25f, 0);
     
     state.platform[4].textureID = tileTextureID;
     state.platform[4].position = glm::vec3(1, -2.25f, 0);
     
-    state.platform[5].textureID = tileTextureID2;
-    state.platform[5].position = glm::vec3(4, -3.25f, 0);
+    state.platform2[1].textureID = tileTextureID2;
+    state.platform2[1].position = glm::vec3(4, -3.25f, 0);
     
     state.platform[6].textureID = tileTextureID;
     state.platform[6].position = glm::vec3(2, -3.25f, 0);
@@ -111,6 +113,55 @@ void Initialize() {
     state.platform[11].textureID = tileTextureID;
     state.platform[11].position = glm::vec3(5, 0.75f, 0);
     
+    state.platform[12].textureID = tileTextureID;
+    state.platform[12].position = glm::vec3(5, 1.75f, 0);
+    
+    state.platform[13].textureID = tileTextureID;
+    state.platform[13].position = glm::vec3(5, 2.75f, 0);
+    
+    state.platform[14].textureID = tileTextureID;
+    state.platform[14].position = glm::vec3(5, 3.75f, 0);
+    
+    state.platform[15].textureID = tileTextureID;
+    state.platform[15].position = glm::vec3(-2, -3.25f, 0);
+    
+    state.platform[16].textureID = tileTextureID;
+    state.platform[16].position = glm::vec3(-3, -3.25f, 0);
+    
+    state.platform[17].textureID = tileTextureID;
+    state.platform[17].position = glm::vec3(-4, -3.25f, 0);
+    
+    state.platform[18].textureID = tileTextureID;
+    state.platform[18].position = glm::vec3(-5, -3.25f, 0);
+    
+    state.platform[19].textureID = tileTextureID;
+    state.platform[19].position = glm::vec3(-5, -2.25f, 0);
+    
+    state.platform[20].textureID = tileTextureID;
+    state.platform[20].position = glm::vec3(-5,-1.25f, 0);
+    
+    state.platform[21].textureID = tileTextureID;
+    state.platform[21].position = glm::vec3(-5, -.25f, 0);
+    
+    state.platform[22].textureID = tileTextureID;
+    state.platform[22].position = glm::vec3(-5, .75f, 0);
+    
+    state.platform[23].textureID = tileTextureID;
+    state.platform[23].position = glm::vec3(-5, 1.75f, 0);
+    
+    state.platform[24].textureID = tileTextureID;
+    state.platform[24].position = glm::vec3(-5, 2.75f, 0);
+    
+    state.platform[25].textureID = tileTextureID;
+    state.platform[25].position = glm::vec3(-5, 3.75f, 0);
+    
+    state.platform[26].textureID = tileTextureID;
+    state.platform[26].position = glm::vec3(4, 0.75f, 0);
+    
+    state.platform[27].textureID = tileTextureID;
+    state.platform[27].position = glm::vec3(3, 0.75f, 0);
+    
+
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
@@ -189,6 +240,7 @@ void Render() {
     
     for (int i = 0; i < PLATFORM_COUNT; i++){
         state.platform[i].Render(&program);
+        state.platform2[i].Render(&program);
     }
     
     SDL_GL_SwapWindow(displayWindow);

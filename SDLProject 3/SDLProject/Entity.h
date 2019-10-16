@@ -13,7 +13,7 @@
 #include "ShaderProgram.h"
 
 
-enum EntityType{PLAYER, PLATFORM, COIN, ENEMY };
+enum EntityType{PLAYER, PLATFORM, PLATFORM2};
 
 class Entity {
 public:
