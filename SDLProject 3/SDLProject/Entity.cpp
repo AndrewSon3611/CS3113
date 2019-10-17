@@ -93,6 +93,7 @@ void Entity::Update(float deltaTime, Entity *objects, int objectCount)
 
  position.x += velocity.x * deltaTime; // Move on X
  CheckCollisionsX(objects, objectCount); // Fix if needed
+
     
 
 }

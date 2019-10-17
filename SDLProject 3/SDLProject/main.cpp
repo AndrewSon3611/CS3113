@@ -87,14 +87,14 @@ void Initialize() {
     state.platform[2].textureID = tileTextureID;
     state.platform[2].position = glm::vec3(1, -3.25f, 0);
     
-    state.platform[3].textureID = tileTextureID2;
-    state.platform[3].position = glm::vec3(3, -3.25f, 0);
+    state.platform2[3].textureID = tileTextureID2;
+    state.platform2[3].position = glm::vec3(3, -3.25f, 0);
     
     state.platform[4].textureID = tileTextureID;
     state.platform[4].position = glm::vec3(1, -2.25f, 0);
     
-    state.platform[5].textureID = tileTextureID2;
-    state.platform[5].position = glm::vec3(4, -3.25f, 0);
+    state.platform2[5].textureID = tileTextureID2;
+    state.platform2[5].position = glm::vec3(4, -3.25f, 0);
     
     state.platform[6].textureID = tileTextureID;
     state.platform[6].position = glm::vec3(2, -3.25f, 0);
@@ -224,7 +224,7 @@ void Update() {
     
     while (deltaTime >= FIXED_TIMESTEP) {
         // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
-        state.player.Update(FIXED_TIMESTEP, state.platform, PLATFORM_COUNT);
+        state.player.Update(FIXED_TIMESTEP, state.platform, state.platform2, PLATFORM_COUNT);
         
         deltaTime -= FIXED_TIMESTEP;
     }
@@ -241,6 +241,7 @@ void Render() {
     
     for (int i = 0; i < PLATFORM_COUNT; i++){
         state.platform[i].Render(&program);
+        state.platform2[i].Render(&program);
     }
     
     SDL_GL_SwapWindow(displayWindow);
