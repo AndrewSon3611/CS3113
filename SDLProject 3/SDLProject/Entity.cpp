@@ -14,9 +14,11 @@ bool Entity::CheckCollision(Entity other)
     float ydist = fabs(position.y - other.position.y) - ((height + other.height) / 2.0f);
     if (xdist < 0 && ydist < 0)
     {
-        if (entityType == PLAYER)
-        {
-            other.isActive = false;
+        if (other.entityType == PLATFORM){
+        //lose tile
+        }
+        if (other.entityType == PLATFORM2){
+        //win tile
         }
         return true;
     }

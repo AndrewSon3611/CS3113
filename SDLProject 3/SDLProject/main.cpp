@@ -30,6 +30,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 struct GameState {
     Entity player;
     Entity platform[PLATFORM_COUNT];
+    Entity platform2[PLATFORM_COUNT];
 };
 
 GameState state;
