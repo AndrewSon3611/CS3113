@@ -26,10 +26,10 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 #define PLATFORM_COUNT 28
 
+
 struct GameState {
     Entity player;
     Entity platform[PLATFORM_COUNT];
-    Entity platform2[PLATFORM_COUNT];
 };
 
 GameState state;
@@ -86,14 +86,14 @@ void Initialize() {
     state.platform[2].textureID = tileTextureID;
     state.platform[2].position = glm::vec3(1, -3.25f, 0);
     
-    state.platform2[0].textureID = tileTextureID2;
-    state.platform2[0].position = glm::vec3(3, -3.25f, 0);
+    state.platform[3].textureID = tileTextureID2;
+    state.platform[3].position = glm::vec3(3, -3.25f, 0);
     
     state.platform[4].textureID = tileTextureID;
     state.platform[4].position = glm::vec3(1, -2.25f, 0);
     
-    state.platform2[1].textureID = tileTextureID2;
-    state.platform2[1].position = glm::vec3(4, -3.25f, 0);
+    state.platform[5].textureID = tileTextureID2;
+    state.platform[5].position = glm::vec3(4, -3.25f, 0);
     
     state.platform[6].textureID = tileTextureID;
     state.platform[6].position = glm::vec3(2, -3.25f, 0);
@@ -240,7 +240,6 @@ void Render() {
     
     for (int i = 0; i < PLATFORM_COUNT; i++){
         state.platform[i].Render(&program);
-        state.platform2[i].Render(&program);
     }
     
     SDL_GL_SwapWindow(displayWindow);
