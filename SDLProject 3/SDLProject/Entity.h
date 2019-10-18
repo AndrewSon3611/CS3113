@@ -13,38 +13,37 @@
 #include "ShaderProgram.h"
 
 
-enum EntityType{PLAYER, PLATFORM, PLATFORM2};
+enum EntityType { PLAYER, PLATFORM, PLATFORM2 };
 
 class Entity {
 public:
-    
+
     EntityType entityType;
     bool isActive;
     bool isStatic;
     glm::vec3 position;
     glm::vec3 velocity;
     glm::vec3 acceleration;
-    
+
     float width;
     float height;
     float speed;
-    
+
     GLuint textureID;
-    
+
     Entity();
-    
+
     bool CheckCollision(Entity other);
-    
+
     void Update(float deltaTime, Entity *objects, int objectCount);
     void Render(ShaderProgram *program);
     void CheckCollisionsX(Entity *objects, int objectCount);
     void CheckCollisionsY(Entity *objects, int objectCount);
     
+    void MesasgeRender(ShaderProgram *program);
     void jump();
     bool collidedTop;
     bool collidedBottom;
     bool collidedLeft;
     bool collidedRight;
 };
-
-

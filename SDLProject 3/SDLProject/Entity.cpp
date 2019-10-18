@@ -14,11 +14,14 @@ bool Entity::CheckCollision(Entity other)
     float ydist = fabs(position.y - other.position.y) - ((height + other.height) / 2.0f);
     if (xdist < 0 && ydist < 0)
     {
-        if (other.entityType == PLATFORM){
-        //lose tile
+        if (other.entityType == PLATFORM) {
+            glClearColor(168.0f / 255.0f, 50.0f / 255.0f, 86.0f / 255.0f, 1.0f);
+            //lose tile
+            
         }
-        if (other.entityType == PLATFORM2){
-        //win tile
+        if (other.entityType == PLATFORM2) {
+            glClearColor(50.0f/255.0f, 168.0f / 255.0f, 82.0f / 255.0f, 1.0f);
+            //win tile
         }
         return true;
     }
@@ -28,23 +31,23 @@ bool Entity::CheckCollision(Entity other)
 void Entity::CheckCollisionsY(Entity *objects, int objectCount)
 {
     for (int i = 0; i < objectCount; i++)
- {
+    {
         Entity object = objects[i];
 
         if (CheckCollision(object))
         {
             float ydist = fabs(position.y - object.position.y);
             float penetrationY = fabs(ydist - (height / 2) - (object.height / 2));
-                if (velocity.y > 0) {
-                    position.y -= penetrationY;
-                    velocity.y = 0;
-                    collidedTop = true;
-                }
-                else if (velocity.y < 0) {
-                    position.y += penetrationY;
-                    velocity.y = 0;
-                    collidedBottom = true;
-                }
+            if (velocity.y > 0) {
+                position.y -= penetrationY;
+                velocity.y = 0;
+                collidedTop = true;
+            }
+            else if (velocity.y < 0) {
+                position.y += penetrationY;
+                velocity.y = 0;
+                collidedBottom = true;
+            }
         }
     }
 }
@@ -53,7 +56,7 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount)
 {
     for (int i = 0; i < objectCount; i++)
     {
-     Entity object = objects[i];
+        Entity object = objects[i];
 
         if (CheckCollision(object))
         {
@@ -75,7 +78,7 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount)
 
 void Entity::jump()
 {
-    if(collidedBottom)
+    if (collidedBottom)
     {
         velocity.y = 5.0f;
     }
@@ -86,15 +89,15 @@ void Entity::Update(float deltaTime, Entity *objects, int objectCount)
     collidedBottom = false;
     collidedLeft = false;
     collidedRight = false;
- velocity += acceleration * deltaTime;
+    velocity += acceleration * deltaTime;
 
- position.y += velocity.y * deltaTime; // Move on Y
- CheckCollisionsY(objects, objectCount); // Fix if needed
+    position.y += velocity.y * deltaTime; // Move on Y
+    CheckCollisionsY(objects, objectCount); // Fix if needed
 
- position.x += velocity.x * deltaTime; // Move on X
- CheckCollisionsX(objects, objectCount); // Fix if needed
+    position.x += velocity.x * deltaTime; // Move on X
+    CheckCollisionsX(objects, objectCount); // Fix if needed
 
-    
+
 
 }
 
@@ -103,20 +106,20 @@ void Entity::Render(ShaderProgram *program) {
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
     program->SetModelMatrix(modelMatrix);
-    
-    float vertices[]  = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+
+    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
-    
+
     glBindTexture(GL_TEXTURE_2D, textureID);
-    
+
     glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
-    
+
     glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
     glEnableVertexAttribArray(program->texCoordAttribute);
-    
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    
+
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
