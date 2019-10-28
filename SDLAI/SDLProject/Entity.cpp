@@ -22,6 +22,7 @@ bool Entity::CheckCollision(Entity other)
     if (xdist < 0 && ydist < 0)
     {
         lastCollision = other.entityType;
+        return true;
     }
     
     return false;
@@ -55,7 +56,6 @@ void Entity::CheckCollisionsY(Entity *objects, int objectCount)
             else if (entityType == PLAYER && lastCollision == ENEMY && collidedBottom){
                 objects[i].isActive = false;
                 lastCollision = PLATFORM;
-                Jump();
                 killcount++;
             }
         }
@@ -113,26 +113,11 @@ void Entity::AIwalker(Entity player)
     }
 
 }
-void Entity::AIjumper(Entity player)
-{
-    switch(aiState){
-        case JUMPING:
-        if (player.position.x > position.x){
-            velocity.y = 1.0;
-        } else{
-        velocity.y = -1.0f;
-        }
-        break;
-    }
 
-}
 void Entity::AIupdate(Entity player){
     switch(aiType){
         case WALKER:
             AIwalker(player);
-            break;
-        case JUMPER:
-            AIjumper(player);
             break;
     }
 }
