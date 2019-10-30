@@ -1,14 +1,21 @@
-//
-//  Util.hpp
-//  SDLProject
-//
-//  Created by Andrew Son on 10/30/19.
-//  Copyright © 2019 ctg. All rights reserved.
-//
 
-#ifndef Util_hpp
-#define Util_hpp
+#pragma once
+#define GL_SILENCE_DEPRECATION
+#ifdef _WINDOWS
+#include <GL/glew.h>
+#endif
+#include <vector>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "ShaderProgram.h"
 
-#include <stdio.h>
+class Util {
 
-#endif /* Util_hpp */
+public:
+     static GLuint fontTextureID;
+     static GLuint LoadTexture(const char* filePath);
+     static void DrawText(ShaderProgram *program, int fontTextureID, std::string
+text, float size, float spacing, glm::vec3 position);
+};
