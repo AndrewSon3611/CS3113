@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		954C32EA236A3F7100209CCD /* font1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 954C32E9236A3F4A00209CCD /* font1.png */; };
 		DB42CD19235B9B09006755A8 /* dirt.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB42CD18235B9AFF006755A8 /* dirt.png */; };
 		DB42CD1A235B9B0C006755A8 /* grass.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB42CD17235B9AFF006755A8 /* grass.png */; };
 		DB42CD1D235B9C4D006755A8 /* evil.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB42CD1C235B9C3F006755A8 /* evil.png */; };
@@ -29,6 +30,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				954C32EA236A3F7100209CCD /* font1.png in CopyFiles */,
 				DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */,
 				FAD69121234B8AF600D9AA86 /* me.png in CopyFiles */,
 				DB42CD1A235B9B0C006755A8 /* grass.png in CopyFiles */,
@@ -40,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		954C32E9236A3F4A00209CCD /* font1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font1.png; sourceTree = "<group>"; };
 		DB42CD17235B9AFF006755A8 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
 		DB42CD18235B9AFF006755A8 /* dirt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dirt.png; sourceTree = "<group>"; };
 		DB42CD1C235B9C3F006755A8 /* evil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evil.png; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				DB42CD18235B9AFF006755A8 /* dirt.png */,
+				954C32E9236A3F4A00209CCD /* font1.png */,
 				DB42CD17235B9AFF006755A8 /* grass.png */,
 				DB42CD1C235B9C3F006755A8 /* evil.png */,
 				FAD69120234B8AEC00D9AA86 /* me.png */,

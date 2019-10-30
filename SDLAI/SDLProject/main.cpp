@@ -3,7 +3,7 @@
 #ifdef _WINDOWS
 #include <GL/glew.h>
 #endif
-
+#include <vector>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
@@ -32,6 +32,9 @@ struct GameState {
 };
 
 GameState state;
+
+
+
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -97,7 +100,7 @@ void Initialize() {
     state.enemies[2].isStatic = false;
     state.enemies[2].position = glm::vec3(4, -2.25f, 0);
     state.enemies[2].aiState = IDLE;
-    state.enemies[2].aiType = WALKER;
+    state.enemies[2].aiType = RUNNER;
     
     GLuint dirtTextureID = LoadTexture("dirt.png");
     GLuint grassTextureID = LoadTexture("grass.png");
@@ -202,6 +205,48 @@ void Update() {
 }
 
 
+void DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position)
+{
+    float width = 1.0f / 16.0f;
+    float height = 1.0f / 16.0f;
+
+    std::vector<float> vertices;
+    std::vector<float> texCoords;
+
+    for (int i = 0; i < text.size(); i++) {
+        int index = (int)text[i];
+
+        float u = (float)(index % 16) / 16.0f;
+        float v = (float)(index / 16) / 16.0f;
+
+        texCoords.insert(texCoords.end(), { u, v + height, u + width, v + height, u + width, v, u, v + height, u + width, v, u, v });
+
+        float offset = (size + spacing) * i;
+        vertices.insert(vertices.end(), { offset + (-0.5f * size), (-0.5f * size),
+                                        offset + (0.5f * size), (-0.5f * size),
+                                        offset + (0.5f * size), (0.5f * size),
+                                        offset + (-0.5f * size), (-0.5f * size),
+                                        offset + (0.5f * size), (0.5f * size),
+                                        offset + (-0.5f * size), (0.5f * size) });
+    }
+
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    program->SetModelMatrix(modelMatrix);
+    glBindTexture(GL_TEXTURE_2D, fontTextureID);
+
+
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices.data());
+    glEnableVertexAttribArray(program->positionAttribute);
+
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.data());
+    glEnableVertexAttribArray(program->texCoordAttribute);
+
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 2.0f);
+
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+}
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -217,6 +262,17 @@ void Render() {
         state.enemies[i].Render(&program);
     }
     
+    if (state.player.isStatic == true) {
+        GLuint fontTextureID = LoadTexture("font1.png");
+        DrawText(&program, fontTextureID, "Game", 1, -0.1, glm::vec3(-1, 0.5, 0));
+        DrawText(&program, fontTextureID, "Over!", 1, -0.1, glm::vec3(-1.1, -0.5, 0));
+    }
+    
+    if (state.player.killcount == 3) {
+        GLuint fontTextureID = LoadTexture("font1.png");
+        DrawText(&program, fontTextureID, "You", 1, -0.1, glm::vec3(-1, 0.5, 0));
+        DrawText(&program, fontTextureID, "Win!", 1, -0.1, glm::vec3(-1.1, -0.5, 0));
+    }
     SDL_GL_SwapWindow(displayWindow);
 }
 

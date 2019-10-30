@@ -82,6 +82,11 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount)
                 velocity.x = 0;
                 collidedLeft = true;
             }
+            if (entityType == PLAYER && lastCollision == ENEMY && (collidedRight || collidedLeft)) {
+                isStatic = true;
+                velocity = glm::vec3(0, 0, 0);
+                acceleration = glm::vec3(0, 0, 0);
+            }
         }
     }
 }
@@ -93,6 +98,19 @@ void Entity::Jump()
     {
         velocity.y = 5.0f;
     }
+}
+
+void Entity::CollisionWall(){
+  if ((position.x + (width / 2.0f)) > 5.0f) {
+    position.x = 5.0f - (width / 2.0f);
+    velocity.x = 0;
+    collideRightWall = true;
+  }
+  else if ((position.x - (width / 2.0f)) < -5.0f) {
+    position.x = -5.0f + (width / 2.0f);
+    velocity.x = 0;
+    collideLeftWall = true;
+  }
 }
 
 void Entity::AIwalker(Entity player)
@@ -114,8 +132,27 @@ void Entity::AIwalker(Entity player)
 
 }
 
+void Entity::AIrunner(Entity player)
+{
+    switch(aiState){
+        case IDLE:
+            if (glm::distance(position, player.position)< 3.0){
+                aiState = RUNNING;
+            }
+            break;
+        case RUNNING:
+            if (player.position.x > position.x){
+                velocity.x = 2.0;
+            } else{
+            velocity.x = -2.0f;
+            }
+            break;
+    }
+
+}
+
 void Entity::AIjumper(Entity player){
-    glClearColor(0.0f, 0.90f, 0.9f, 0.3f);
+    //glClearColor(0.0f, 0.90f, 0.9f, 0.3f);
     switch(aiState){
         case IDLE:
             if (glm::distance(position, player.position)< 3.0){
@@ -123,11 +160,7 @@ void Entity::AIjumper(Entity player){
             }
             break;
         case JUMPING:
-            if (player.position.x > position.x){
-                velocity.y = 1.0;
-            } else{
-            velocity.y = -1.0f;
-            }
+            Jump();
             break;
     }
 
@@ -140,6 +173,9 @@ void Entity::AIupdate(Entity player){
             break;
         case JUMPER:
             AIjumper(player);
+            break;
+        case RUNNER:
+            AIrunner(player);
             break;
     }
 }

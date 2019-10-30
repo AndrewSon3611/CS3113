@@ -14,9 +14,10 @@
 
 enum  EntityType { PLAYER, PLATFORM, COIN, ENEMY};
 
-enum AIState{ IDLE, WALKING, JUMPING };
+enum AIState{ IDLE, WALKING, JUMPING, RUNNING };
 
-enum AIType { WALKER, JUMPER };
+enum AIType { WALKER, JUMPER, RUNNER };
+
 
 class Entity {
 public:
@@ -46,11 +47,12 @@ public:
     
     void CheckCollisionsX(Entity *objects, int objectCount);
     void CheckCollisionsY(Entity *objects, int objectCount);
-    
+    void CollisionWall();
     void Update(float deltaTime, Entity player, Entity *objects, int objectCount, Entity *enemies, int enemyCount);
     void Render(ShaderProgram *program);
     void AIwalker(Entity player);
     void AIjumper(Entity player);
+    void AIrunner(Entity player);
     void AIupdate(Entity player);
     void Jump();
     
@@ -58,6 +60,8 @@ public:
     bool collidedBottom;
     bool collidedLeft;
     bool collidedRight;
+    bool collideRightWall;
+    bool collideLeftWall;
     int killcount;
 };
 
