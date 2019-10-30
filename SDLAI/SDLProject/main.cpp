@@ -90,7 +90,7 @@ void Initialize() {
     state.enemies[1].isStatic = false;
     state.enemies[1].position = glm::vec3(2, -2.25f, 0);
     state.enemies[1].aiState = IDLE;
-    state.enemies[1].aiType = WALKER;
+    state.enemies[1].aiType = JUMPER;
     
     state.enemies[2].entityType = ENEMY;
     state.enemies[2].textureID=evilTextureID;

@@ -114,10 +114,32 @@ void Entity::AIwalker(Entity player)
 
 }
 
+void Entity::AIjumper(Entity player){
+    glClearColor(0.0f, 0.90f, 0.9f, 0.3f);
+    switch(aiState){
+        case IDLE:
+            if (glm::distance(position, player.position)< 3.0){
+                aiState = JUMPING;
+            }
+            break;
+        case JUMPING:
+            if (player.position.x > position.x){
+                velocity.y = 1.0;
+            } else{
+            velocity.y = -1.0f;
+            }
+            break;
+    }
+
+}
+
 void Entity::AIupdate(Entity player){
     switch(aiType){
         case WALKER:
             AIwalker(player);
+            break;
+        case JUMPER:
+            AIjumper(player);
             break;
     }
 }
@@ -158,6 +180,9 @@ void Entity::Update(float deltaTime, Entity player, Entity *objects, int objectC
 
 
 void Entity::Render(ShaderProgram *program) {
+    if (isActive == false){
+        return;
+    }
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
     program->SetModelMatrix(modelMatrix);
