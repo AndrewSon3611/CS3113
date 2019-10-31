@@ -148,15 +148,16 @@ void Entity::AIjumper(Entity player){
     //glClearColor(0.0f, 0.90f, 0.9f, 0.3f);
     switch(aiState){
         case IDLE:
-            if (glm::distance(position, player.position)< 2.0){
+            if (glm::distance(position, player.position)< 10.0){
                 aiState = JUMPING;
             }
             break;
         case JUMPING:
-                velocity.y = 0.25;
-            if (glm::distance(position, player.position)> 3.0){
-                velocity.y = -0.25f;
-            }
+                //velocity.y = 0.25;
+            //if (glm::distance(position, player.position)> 3.0){
+                //velocity.y = -0.25f;
+            Jump();
+            //}
             break;
     }
 }
@@ -185,15 +186,16 @@ void Entity::Update(float deltaTime, Entity player, Entity *objects, int objectC
     
     velocity += acceleration * deltaTime;
     
-    if (entityType == ENEMY)
-    {
-        AIupdate(player);
-    }
+
     
     
     position.y += velocity.y * deltaTime;        // Move on Y
     CheckCollisionsY(objects, objectCount);    // Fix if needed
     
+    if (entityType == ENEMY)
+    {
+        AIupdate(player);
+    }
     if (entityType == PLAYER)
     {
         CheckCollisionsY(enemies, enemyCount);
