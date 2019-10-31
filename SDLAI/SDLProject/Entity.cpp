@@ -96,22 +96,15 @@ void Entity::Jump()
 {
     if (collidedBottom)
     {
+        if (entityType == ENEMY){
+            velocity.y = 2.0f;
+        }
+        else{
         velocity.y = 5.0f;
+        }
     }
 }
 
-void Entity::CollisionWall(){
-  if ((position.x + (width / 2.0f)) > 5.0f) {
-    position.x = 5.0f - (width / 2.0f);
-    velocity.x = 0;
-    collideRightWall = true;
-  }
-  else if ((position.x - (width / 2.0f)) < -5.0f) {
-    position.x = -5.0f + (width / 2.0f);
-    velocity.x = 0;
-    collideLeftWall = true;
-  }
-}
 
 void Entity::AIwalker(Entity player)
 {
@@ -142,9 +135,9 @@ void Entity::AIrunner(Entity player)
             break;
         case RUNNING:
             if (player.position.x > position.x){
-                velocity.x = 2.0;
+                velocity.x = 2.3;
             } else{
-            velocity.x = -2.0f;
+            velocity.x = -2.3f;
             }
             break;
     }
@@ -155,15 +148,17 @@ void Entity::AIjumper(Entity player){
     //glClearColor(0.0f, 0.90f, 0.9f, 0.3f);
     switch(aiState){
         case IDLE:
-            if (glm::distance(position, player.position)< 3.0){
+            if (glm::distance(position, player.position)< 2.0){
                 aiState = JUMPING;
             }
             break;
         case JUMPING:
-            Jump();
+                velocity.y = 0.25;
+            if (glm::distance(position, player.position)> 3.0){
+                velocity.y = -0.25f;
+            }
             break;
     }
-
 }
 
 void Entity::AIupdate(Entity player){

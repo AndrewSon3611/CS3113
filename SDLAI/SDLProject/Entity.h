@@ -47,7 +47,6 @@ public:
     
     void CheckCollisionsX(Entity *objects, int objectCount);
     void CheckCollisionsY(Entity *objects, int objectCount);
-    void CollisionWall();
     void Update(float deltaTime, Entity player, Entity *objects, int objectCount, Entity *enemies, int enemyCount);
     void Render(ShaderProgram *program);
     void AIwalker(Entity player);
