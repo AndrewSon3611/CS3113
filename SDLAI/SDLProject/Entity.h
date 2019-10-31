@@ -14,9 +14,9 @@
 
 enum  EntityType { PLAYER, PLATFORM, COIN, ENEMY};
 
-enum AIState{ IDLE, WALKING, JUMPING, RUNNING };
+enum AIState{ IDLE, WALKING, JUMPING, FLOATING };
 
-enum AIType { WALKER, JUMPER, RUNNER };
+enum AIType { WALKER, JUMPER, FLOATER };
 
 
 class Entity {
@@ -51,7 +51,7 @@ public:
     void Render(ShaderProgram *program);
     void AIwalker(Entity player);
     void AIjumper(Entity player);
-    void AIrunner(Entity player);
+    void AIfloater(Entity player);
     void AIupdate(Entity player);
     void Jump();
     

@@ -110,35 +110,38 @@ void Entity::AIwalker(Entity player)
 {
     switch(aiState){
         case IDLE:
-            if (glm::distance(position, player.position)< 3.0){
+            if (glm::distance(position, player.position)< 2.5){
                 aiState = WALKING;
             }
             break;
         case WALKING:
             if (player.position.x > position.x){
-                velocity.x = 1.0;
+                velocity.x = 0.7;
             } else{
-            velocity.x = -1.0f;
+            velocity.x = -0.7f;
             }
             break;
     }
 
 }
 
-void Entity::AIrunner(Entity player)
+void Entity::AIfloater(Entity player)
 {
     switch(aiState){
         case IDLE:
             if (glm::distance(position, player.position)< 3.0){
-                aiState = RUNNING;
+                aiState = FLOATING;
             }
             break;
-        case RUNNING:
+        case FLOATING:
             if (player.position.x > position.x){
                 velocity.x = 2.3;
             } else{
-            velocity.x = -2.3f;
+                velocity.y = 0.25;
+            if (glm::distance(position, player.position)> 3.0){
+                velocity.y = -0.25f;
             }
+        }
             break;
     }
 
@@ -153,11 +156,7 @@ void Entity::AIjumper(Entity player){
             }
             break;
         case JUMPING:
-                //velocity.y = 0.25;
-            //if (glm::distance(position, player.position)> 3.0){
-                //velocity.y = -0.25f;
             Jump();
-            //}
             break;
     }
 }
@@ -170,8 +169,8 @@ void Entity::AIupdate(Entity player){
         case JUMPER:
             AIjumper(player);
             break;
-        case RUNNER:
-            AIrunner(player);
+        case FLOATER:
+            AIfloater(player);
             break;
     }
 }

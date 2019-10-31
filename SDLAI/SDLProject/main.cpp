@@ -67,7 +67,7 @@ void Initialize() {
     glewInit();
 #endif
     
-    glViewport(0, 0, 640, 480);
+    glViewport(0, 0, 1280, 960);
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
@@ -84,14 +84,14 @@ void Initialize() {
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID=evilTextureID;
     state.enemies[0].isStatic = false;
-    state.enemies[0].position = glm::vec3(3, -2.25f, 0);
+    state.enemies[0].position = glm::vec3(2, -2.25f, 0);
     state.enemies[0].aiState = IDLE;
     state.enemies[0].aiType = WALKER;
     
     state.enemies[1].entityType = ENEMY;
     state.enemies[1].textureID=evilTextureID;
     state.enemies[1].isStatic = false;
-    state.enemies[1].position = glm::vec3(2, -2.25f, 0);
+    state.enemies[1].position = glm::vec3(3, -2.25f, 0);
     state.enemies[1].acceleration = glm::vec3(0, -9.81f, 0);
     state.enemies[1].aiState = IDLE;
     state.enemies[1].aiType = JUMPER;
@@ -99,9 +99,9 @@ void Initialize() {
     state.enemies[2].entityType = ENEMY;
     state.enemies[2].textureID=evilTextureID;
     state.enemies[2].isStatic = false;
-    state.enemies[2].position = glm::vec3(4, -2.25f, 0);
+    state.enemies[2].position = glm::vec3(0, -2.25f, 0);
     state.enemies[2].aiState = IDLE;
-    state.enemies[2].aiType = RUNNER;
+    state.enemies[2].aiType = FLOATER;
     
     GLuint dirtTextureID = LoadTexture("dirt.png");
     GLuint grassTextureID = LoadTexture("grass.png");
