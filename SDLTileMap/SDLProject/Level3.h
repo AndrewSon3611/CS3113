@@ -1,14 +1,10 @@
-//
-//  Level3.hpp
-//  SDLProject
-//
-//  Created by Andrew Son on 10/31/19.
-//  Copyright © 2019 ctg. All rights reserved.
-//
+#include "Scene.h"
+class Level3 : public Scene {
 
-#ifndef Level3_hpp
-#define Level3_hpp
+public:
+    void Initialize() override;
+    void Update(float deltaTime) override;
+    void Render(ShaderProgram *program) override;
+};
 
-#include <stdio.h>
 
-#endif /* Level3_hpp */

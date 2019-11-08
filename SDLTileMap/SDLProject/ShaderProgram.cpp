@@ -21,16 +21,32 @@ void ShaderProgram::Load(const char *vertexShaderFile, const char *fragmentShade
 	printf("Error linking shader program!\n");
     }
     
+    
     modelMatrixUniform = glGetUniformLocation(programID, "modelMatrix");
     projectionMatrixUniform = glGetUniformLocation(programID, "projectionMatrix");
     viewMatrixUniform = glGetUniformLocation(programID, "viewMatrix");
 	colorUniform = glGetUniformLocation(programID, "color");
+    
+    lightPositionUniform = glGetUniformLocation(programID, "lightPosition");
+    lightPositionUniform2 = glGetUniformLocation(programID, "lightPosition2");
+
     
     positionAttribute = glGetAttribLocation(programID, "position");
     texCoordAttribute = glGetAttribLocation(programID, "texCoord");
 	
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
     
+}
+
+void ShaderProgram::SetLightPosition(glm::vec3 position) {
+    glUseProgram(programID);
+    glUniform2f(lightPositionUniform, position.x, position.y);
+}
+
+
+void ShaderProgram::SetLightPosition2(glm::vec3 position) {
+    glUseProgram(programID);
+    glUniform2f(lightPositionUniform2, position.x, position.y);
 }
 
 void ShaderProgram::Cleanup() {

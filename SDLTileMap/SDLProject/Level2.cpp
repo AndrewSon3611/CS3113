@@ -1,16 +1,16 @@
 #include "Level2.h"
-#define LEVEL2_WIDTH 14
+#define LEVEL2_WIDTH 17
 #define LEVEL2_HEIGHT 8
 unsigned int level2_data[] =
 {
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
- 3, 1, 1, 1, 1, 1, 1, 0, 0, 2, 2, 2, 2, 2,
- 3, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0,
+ 3, 1, 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 0, 2, 0, 0, 0,
+ 3, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 0, 0, 0
 };
 
 void Level2::Initialize() {
@@ -26,6 +26,11 @@ void Level2::Initialize() {
 }
 void Level2::Update(float deltaTime) {
     state.player.Update(deltaTime, NULL, 0, state.map);
+    
+    if (state.player.position.x > 16){
+        state.nextLevel = 2;
+    }
+
 }
 void Level2::Render(ShaderProgram *program) {
     state.map->Render(program);

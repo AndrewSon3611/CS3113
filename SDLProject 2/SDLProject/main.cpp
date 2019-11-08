@@ -7,10 +7,12 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Entity.h"
+#include <SDL_mixer.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -24,6 +26,8 @@ ShaderProgram program3;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix, projection2Matrix, ballMatrix;
 
 Entity player1, player2, ball;
+
+Mix_Music *music;
 
 GLuint fontTextureID;
 
@@ -53,11 +57,14 @@ GLuint LoadTexture(const char* filePath) {
 }
 
 void Initialize() {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     displayWindow = SDL_CreateWindow("Pong!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS(".mp3");
+    Mix_PlayMusic(music,-1);
 #ifdef _WINDOWS
     glewInit();
 #endif

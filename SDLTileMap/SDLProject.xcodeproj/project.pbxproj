@@ -11,6 +11,7 @@
 		954C32E22369E0EB00209CCD /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32E02369E0EB00209CCD /* Scene.cpp */; };
 		954C32E52369E1BE00209CCD /* Level1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32E32369E1BE00209CCD /* Level1.cpp */; };
 		954C32E82369E4E600209CCD /* Level2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32E62369E4E600209CCD /* Level2.cpp */; };
+		954C32ED236B4A9400209CCD /* Level3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32EB236B4A9400209CCD /* Level3.cpp */; };
 		DB233D0F23661A49008B1DEB /* tileset.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB233D0E23661A3D008B1DEB /* tileset.png */; };
 		DB233D1223661B3D008B1DEB /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB233D1023661B3D008B1DEB /* Map.cpp */; };
 		DBDF1B532323DE3F007CECB1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B522323DE3F007CECB1 /* main.cpp */; };
@@ -49,6 +50,8 @@
 		954C32E42369E1BE00209CCD /* Level1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level1.h; sourceTree = "<group>"; };
 		954C32E62369E4E600209CCD /* Level2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level2.cpp; sourceTree = "<group>"; };
 		954C32E72369E4E600209CCD /* Level2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level2.h; sourceTree = "<group>"; };
+		954C32EB236B4A9400209CCD /* Level3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level3.cpp; sourceTree = "<group>"; };
+		954C32EC236B4A9400209CCD /* Level3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level3.h; sourceTree = "<group>"; };
 		DB233D0E23661A3D008B1DEB /* tileset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tileset.png; sourceTree = "<group>"; };
 		DB233D1023661B3D008B1DEB /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
 		DB233D1123661B3D008B1DEB /* Map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 				954C32E62369E4E600209CCD /* Level2.cpp */,
 				954C32E72369E4E600209CCD /* Level2.h */,
 				954C32DD2369DC1C00209CCD /* Util.cpp */,
+				954C32EB236B4A9400209CCD /* Level3.cpp */,
+				954C32EC236B4A9400209CCD /* Level3.h */,
 				954C32DE2369DC1C00209CCD /* Util.h */,
 			);
 			path = SDLProject;
@@ -200,6 +205,7 @@
 				954C32E22369E0EB00209CCD /* Scene.cpp in Sources */,
 				DBDF1B532323DE3F007CECB1 /* main.cpp in Sources */,
 				FAD6911E234B8AE400D9AA86 /* Entity.cpp in Sources */,
+				954C32ED236B4A9400209CCD /* Level3.cpp in Sources */,
 				DB233D1223661B3D008B1DEB /* Map.cpp in Sources */,
 				DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */,
 				954C32E82369E4E600209CCD /* Level2.cpp in Sources */,
@@ -333,6 +339,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
 					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_mixer.framework/Versions/A/Headers,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -349,6 +356,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
 					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_mixer.framework/Versions/A/Headers,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

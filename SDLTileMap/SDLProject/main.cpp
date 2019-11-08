@@ -17,6 +17,7 @@
 #include "Scene.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
 
 
 SDL_Window* displayWindow;
@@ -28,7 +29,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 #define ENEMY_COUNT 0
 
 Scene *currentScene;
-Scene *sceneList[2];
+Scene *sceneList[3];
 
 void SwitchToScene(Scene *scene) {
  currentScene = scene;
@@ -52,7 +53,7 @@ void Initialize() {
     glViewport(0, 0, 640, 480);
     //glViewport(0, 0, 1280, 960);
     
-    program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
+    program.Load("shaders/vertex_lit.glsl", "shaders/fragment_lit.glsl");
         
     //fontTextureID = Util::LoadTexture("font.png");
 
@@ -75,6 +76,7 @@ void Initialize() {
     
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
+    sceneList[2] = new Level3();
     SwitchToScene(sceneList[0]);
 }
 
@@ -153,10 +155,15 @@ void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     program.SetViewMatrix(viewMatrix);
     
+    
     currentScene->Render(&program);
     
-
+    program.SetLightPosition(currentScene->state.player.position);
+    program.SetLightPosition2(glm::vec3(19,-5,0));
+    
     //Util::DrawText(&program, fontTextureID, "Hello!", 1.0f, -0.5f, glm::vec3(0, 0, 0));
+    
+    
     
     SDL_GL_SwapWindow(displayWindow);
 }
