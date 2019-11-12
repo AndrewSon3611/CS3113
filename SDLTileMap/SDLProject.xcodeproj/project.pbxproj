@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9524CEA6237552D700C5CE9B /* font1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9524CEA5237552C500C5CE9B /* font1.png */; };
+		9524CEA8237555D000C5CE9B /* evil.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9524CEA7237555C100C5CE9B /* evil.png */; };
+		9524CEAA2375E28B00C5CE9B /* amazingplan.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9524CEA92375E27900C5CE9B /* amazingplan.mp3 */; };
+		9524CEAC2375E3B100C5CE9B /* bounce.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9524CEAB2375E3AA00C5CE9B /* bounce.wav */; };
 		954C32DF2369DC1C00209CCD /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32DD2369DC1C00209CCD /* Util.cpp */; };
 		954C32E22369E0EB00209CCD /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32E02369E0EB00209CCD /* Scene.cpp */; };
 		954C32E52369E1BE00209CCD /* Level1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 954C32E32369E1BE00209CCD /* Level1.cpp */; };
@@ -33,6 +37,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				9524CEAC2375E3B100C5CE9B /* bounce.wav in CopyFiles */,
+				9524CEAA2375E28B00C5CE9B /* amazingplan.mp3 in CopyFiles */,
+				9524CEA8237555D000C5CE9B /* evil.png in CopyFiles */,
+				9524CEA6237552D700C5CE9B /* font1.png in CopyFiles */,
 				DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */,
 				FAD69121234B8AF600D9AA86 /* me.png in CopyFiles */,
 				DB233D0F23661A49008B1DEB /* tileset.png in CopyFiles */,
@@ -42,6 +50,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9524CEA5237552C500C5CE9B /* font1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font1.png; sourceTree = "<group>"; };
+		9524CEA7237555C100C5CE9B /* evil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = evil.png; path = ../../SDLAI/SDLProject/evil.png; sourceTree = "<group>"; };
+		9524CEA92375E27900C5CE9B /* amazingplan.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = amazingplan.mp3; sourceTree = "<group>"; };
+		9524CEAB2375E3AA00C5CE9B /* bounce.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bounce.wav; sourceTree = "<group>"; };
 		954C32DD2369DC1C00209CCD /* Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
 		954C32DE2369DC1C00209CCD /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		954C32E02369E0EB00209CCD /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -110,6 +122,10 @@
 			children = (
 				DB233D0E23661A3D008B1DEB /* tileset.png */,
 				FAD69120234B8AEC00D9AA86 /* me.png */,
+				9524CEAB2375E3AA00C5CE9B /* bounce.wav */,
+				9524CEA5237552C500C5CE9B /* font1.png */,
+				9524CEA92375E27900C5CE9B /* amazingplan.mp3 */,
+				9524CEA7237555C100C5CE9B /* evil.png */,
 				FAD6911D234B8AE400D9AA86 /* Entity.cpp */,
 				FAD6911C234B8AE400D9AA86 /* Entity.h */,
 				DBDF1B5B2323DE8D007CECB1 /* glm */,

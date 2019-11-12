@@ -19,6 +19,8 @@
 #include "Level2.h"
 #include "Level3.h"
 
+Mix_Music* music;
+Mix_Chunk* bounce;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
@@ -47,6 +49,12 @@ void Initialize() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     SDL_GL_MakeCurrent(displayWindow, context);
     
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("amazingplan.mp3");
+    Mix_PlayMusic(music, -1);
+    
+    bounce = Mix_LoadWAV("bounce.wav");
+    
 #ifdef _WINDOWS
     glewInit();
 #endif
@@ -56,7 +64,7 @@ void Initialize() {
     
     program.Load("shaders/vertex_lit.glsl", "shaders/fragment_lit.glsl");
         
-    //fontTextureID = Util::LoadTexture("font.png");
+    fontTextureID = Util::LoadTexture("font1.png");
 
     
     viewMatrix = glm::mat4(1.0f);
@@ -94,6 +102,7 @@ void ProcessInput() {
                 switch (event.key.keysym.sym) {
                     case SDLK_SPACE:
                         currentScene-> state.player.Jump();
+                        Mix_PlayChannel(-1, bounce, 0);
                         break;
                         
                 }
@@ -162,7 +171,7 @@ void Render() {
     program.SetLightPosition(currentScene->state.player.position);
     program.SetLightPosition2(glm::vec3(19,-5,0));
     
-    //Util::DrawText(&program, fontTextureID, "Hello!", 1.0f, -0.5f, glm::vec3(0, 0, 0));
+    Util::DrawText(&program, fontTextureID, "Reach The Light!", 1.0f, -0.5f, glm::vec3(3, -2, 0));
     
     
     
