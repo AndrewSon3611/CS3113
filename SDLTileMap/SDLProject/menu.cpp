@@ -14,9 +14,9 @@ unsigned int menu_data[] =
  0, 2, 2, 2, 2
 };
 
+
 void menu::Initialize() {
     GLuint mapTextureID = Util::LoadTexture("tileset.png");
-    GLuint fontTextureID;
     state.map = new Map(menu_WIDTH, menu_HEIGHT, menu_data, mapTextureID, 1.0f, 4, 1);
     state.player.entityType = PLAYER;
     state.player.isStatic = false;

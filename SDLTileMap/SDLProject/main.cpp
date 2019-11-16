@@ -105,6 +105,7 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         currentScene-> state.player.Jump();
                         Mix_PlayChannel(-1, bounce, 0);
+                    
                     case SDLK_KP_ENTER:
                         currentScene-> state.nextLevel();
                         break;
