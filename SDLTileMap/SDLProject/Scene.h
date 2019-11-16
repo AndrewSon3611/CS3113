@@ -16,6 +16,7 @@ struct GameState {
     Entity player;
     Map *map;
     int nextLevel;
+    
 };
 class Scene {
 public:

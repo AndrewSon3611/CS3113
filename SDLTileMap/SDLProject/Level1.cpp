@@ -28,7 +28,7 @@ void Level1::Update(float deltaTime) {
     state.player.Update(deltaTime, NULL, 0, state.map);
     
     if (state.player.position.x > 18){
-        state.nextLevel = 1;
+        state.nextLevel = 2;
     }
 }
 void Level1::Render(ShaderProgram *program) {

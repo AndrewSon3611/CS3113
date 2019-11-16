@@ -1,14 +1,9 @@
-//
-//  menu.hpp
-//  SDLProject
-//
-//  Created by Andrew Son on 11/15/19.
-//  Copyright © 2019 ctg. All rights reserved.
-//
+#include "Scene.h"
+class menu : public Scene {
 
-#ifndef menu_hpp
-#define menu_hpp
+public:
+    void Initialize() override;
+    void Update(float deltaTime) override;
+    void Render(ShaderProgram *program) override;
+};
 
-#include <stdio.h>
-
-#endif /* menu_hpp */

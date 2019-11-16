@@ -29,7 +29,7 @@ void Level3::Update(float deltaTime) {
     
     if (state.player.position.x > 19){
         
-        state.nextLevel = 1;
+        state.player.isStatic = true;
     }
 
 }

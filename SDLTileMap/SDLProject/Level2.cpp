@@ -1,6 +1,7 @@
 #include "Level2.h"
 #define LEVEL2_WIDTH 20
 #define LEVEL2_HEIGHT 8
+
 unsigned int level2_data[] =
 {
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -28,11 +29,15 @@ void Level2::Update(float deltaTime) {
     state.player.Update(deltaTime, NULL, 0, state.map);
     
     if (state.player.position.x > 19){
-        state.nextLevel = 2;
+        state.nextLevel = 3;
     }
+    
+    
 
 }
 void Level2::Render(ShaderProgram *program) {
     state.map->Render(program);
     state.player.Render(program);
+    
+    
 }

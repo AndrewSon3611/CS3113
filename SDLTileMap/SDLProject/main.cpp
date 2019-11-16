@@ -18,6 +18,7 @@
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
+#include "menu.h"
 
 Mix_Music* music;
 Mix_Chunk* bounce;
@@ -31,7 +32,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 #define ENEMY_COUNT 0
 
 Scene *currentScene;
-Scene *sceneList[3];
+Scene *sceneList[4];
 
 void SwitchToScene(Scene *scene) {
  currentScene = scene;
@@ -83,9 +84,10 @@ void Initialize() {
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
-    sceneList[0] = new Level1();
-    sceneList[1] = new Level2();
-    sceneList[2] = new Level3();
+    sceneList[0] = new menu();
+    sceneList[1] = new Level1();
+    sceneList[2] = new Level2();
+    sceneList[3] = new Level3();
     SwitchToScene(sceneList[0]);
 }
 
@@ -103,8 +105,10 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         currentScene-> state.player.Jump();
                         Mix_PlayChannel(-1, bounce, 0);
+                    case SDLK_KP_ENTER:
+                        currentScene-> state.nextLevel();
                         break;
-                        
+                    
                 }
                 break;
         }
