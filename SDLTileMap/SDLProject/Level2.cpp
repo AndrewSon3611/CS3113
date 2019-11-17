@@ -26,10 +26,10 @@ void Level2::Initialize() {
     state.nextLevel = -1;
 }
 void Level2::Update(float deltaTime) {
-    state.player.Update(deltaTime, NULL, 0, state.map);
+    state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, state.map, ENEMY_COUNT);
     
     if (state.player.position.x > 19){
-        state.nextLevel = 3;
+        state.nextLevel = 2;
     }
     
     

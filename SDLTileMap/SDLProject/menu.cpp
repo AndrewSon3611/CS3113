@@ -28,11 +28,11 @@ void menu::Initialize() {
     fontTextureID = Util::LoadTexture("font1.png");
 }
 void menu::Update(float deltaTime) {
-    state.player.Update(deltaTime, NULL, 0, state.map);
+    state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, state.map, ENEMY_COUNT);
     
 }
 void menu::Render(ShaderProgram *program) {
     state.map->Render(program);
     state.player.Render(program);
-    Util::DrawText(&program, fontTextureID, "Reach The Light! Press Enter", 1.0f, -0.5f, glm::vec3(3, -2, 0));
+    Util::DrawText(program, fontTextureID, "Reach The Light! Press Enter", 0.0f, -0.5f, glm::vec3(3, -2, 0));
 }

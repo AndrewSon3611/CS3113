@@ -23,12 +23,14 @@ void Level1::Initialize() {
     state.player.acceleration = glm::vec3(0, -9.81f, 0);
     state.player.textureID = Util::LoadTexture("me.png");
     state.nextLevel = -1;
+    
+    
 }
 void Level1::Update(float deltaTime) {
-    state.player.Update(deltaTime, NULL, 0, state.map);
+    state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, state.map, ENEMY_COUNT);
     
     if (state.player.position.x > 18){
-        state.nextLevel = 2;
+        state.nextLevel = 1;
     }
 }
 void Level1::Render(ShaderProgram *program) {

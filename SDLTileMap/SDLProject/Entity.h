@@ -13,19 +13,28 @@
 
 #include "Map.h"
 
-enum  EntityType { PLAYER, PLATFORM, COIN };
+enum  EntityType { PLAYER, PLATFORM, COIN, ENEMY };
 
+enum AIState{ IDLE, WALKING };
+
+enum AIType { WALKER };
 
 class Entity {
 public:
     
     EntityType entityType;
+    
+    AIState aiState;
+    AIType aiType;
+    
     bool isStatic;
     bool isActive;
     
     glm::vec3 position;
     glm::vec3 velocity;
     glm::vec3 acceleration;
+    
+
     
     float width;
     float height;
@@ -45,8 +54,13 @@ public:
     void CheckCollisionsY(Entity *objects, int objectCount);
     
     
-    void Update(float deltaTime, Entity *objects, int objectCount, Map *map);
+    void Update(float deltaTime, Entity player, Entity *objects, Entity *enemies, int objectCount, Map *map, int enemycount);
+    
     void Render(ShaderProgram *program);
+    
+    void AIwalker(Entity player);
+    void AIupdate(Entity player);
+    
     
     void Jump();
     
@@ -55,6 +69,7 @@ public:
     bool collidedLeft;
     bool collidedRight;
     
+    int lifecount;
 };
 
 

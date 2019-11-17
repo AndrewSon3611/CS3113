@@ -158,7 +158,37 @@ void Entity::CheckCollisionsX(Map *map)
 }
 
 
-void Entity::Update(float deltaTime, Entity *objects, int objectCount, Map *map)
+void Entity::AIwalker(Entity player)
+{
+    switch(aiState){
+        case IDLE:
+            if (glm::distance(position, player.position)< 2.5){
+                aiState = WALKING;
+            }
+            break;
+        case WALKING:
+            if (player.position.x > position.x){
+                velocity.x = 0.7;
+            } else{
+            velocity.x = -0.7f;
+            }
+            break;
+    }
+
+}
+
+
+
+
+
+void Entity::AIupdate(Entity player){
+    switch(aiType){
+        case WALKER:
+            AIwalker(player);
+            break;
+    }
+}
+void Entity::Update(float deltaTime, Entity player, Entity *enemies,  Entity *objects, int objectCount, Map *map, int enemyCount)
 {
  collidedTop = false;
  collidedBottom = false;
@@ -171,9 +201,23 @@ void Entity::Update(float deltaTime, Entity *objects, int objectCount, Map *map)
  CheckCollisionsY(map);
  CheckCollisionsY(objects, objectCount); // Fix if needed
 
+ 
+ if (entityType == ENEMY)
+ {
+     AIupdate(player);
+ }
+ if (entityType == PLAYER)
+ {
+     CheckCollisionsY(enemies, enemyCount);
+ }
  position.x += velocity.x * deltaTime; // Move on X
  CheckCollisionsX(map);
  CheckCollisionsX(objects, objectCount); // Fix if needed
+ 
+ if (entityType == PLAYER)
+ {
+     CheckCollisionsX(enemies, enemyCount);
+ }
 }
 
 
@@ -181,6 +225,8 @@ void Entity::Render(ShaderProgram *program) {
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
     program->SetModelMatrix(modelMatrix);
+    
+    
     
     float vertices[]  = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
