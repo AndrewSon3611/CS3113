@@ -23,7 +23,7 @@ class Entity {
 public:
     
     EntityType entityType;
-    
+    EntityType lastCollision;
     AIState aiState;
     AIType aiType;
     
@@ -69,6 +69,7 @@ public:
     bool collidedLeft;
     bool collidedRight;
     
+    int killcount;
     int lifecount;
 };
 

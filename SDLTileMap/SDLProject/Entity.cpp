@@ -51,6 +51,17 @@ void Entity::CheckCollisionsY(Entity *objects, int objectCount)
                 position.y += penetrationY;
                 velocity.y = 0;
                 collidedBottom = true;
+                
+            if (entityType == PLAYER && lastCollision == ENEMY && (collidedRight || collidedLeft)){
+                isStatic = true;
+                velocity = glm::vec3(0, 0, 0);
+                acceleration = glm::vec3(0, 0, 0);
+                }
+            else if (entityType == PLAYER && lastCollision == ENEMY && collidedBottom){
+                objects[i].isActive = false;
+                lastCollision = PLATFORM;
+                killcount++;
+                }
             }
         }
     }
@@ -77,11 +88,16 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount)
                 position.x += penetrationX;
                 velocity.x = 0;
                 collidedLeft = true;
+                
+            if (entityType == PLAYER && lastCollision == ENEMY && (collidedRight || collidedLeft)) {
+                isStatic = true;
+                velocity = glm::vec3(0, 0, 0);
+                acceleration = glm::vec3(0, 0, 0);
             }
         }
     }
 }
-
+}
 
 void Entity::Jump()
 {
