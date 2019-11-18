@@ -70,7 +70,7 @@ public:
     bool collidedRight;
     
     int killcount;
-    int lifecount;
+    int life;
 };
 
 

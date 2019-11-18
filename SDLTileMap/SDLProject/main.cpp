@@ -19,6 +19,8 @@
 #include "Level2.h"
 #include "Level3.h"
 #include "menu.h"
+#include "gameover.h"
+#include "win.h"
 
 Mix_Music* music;
 Mix_Chunk* bounce;
@@ -29,10 +31,9 @@ bool gameIsRunning = true;
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
-#define ENEMY_COUNT 3
 
 Scene *currentScene;
-Scene *sceneList[3];
+Scene *sceneList[6];
 
 void SwitchToScene(Scene *scene) {
  currentScene = scene;
@@ -84,10 +85,13 @@ void Initialize() {
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
-    //sceneList[0] = new menu();
-    sceneList[0] = new Level1();
-    sceneList[1] = new Level2();
-    sceneList[2] = new Level3();
+    sceneList[0] = new menu();
+    sceneList[1] = new Level1();
+    sceneList[2] = new Level2();
+    sceneList[3] = new Level3();
+    sceneList[4] = new gameover();
+    sceneList[5] = new win();
+    
     SwitchToScene(sceneList[0]);
 }
 
@@ -105,10 +109,6 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         currentScene-> state.player.Jump();
                         Mix_PlayChannel(-1, bounce, 0);
-                    
-                    //case SDLK_KP_ENTER:
-                        //currentScene-> state.nextLevel();
-                        break;
                     
                 }
                 break;
@@ -178,7 +178,7 @@ void Render() {
     program.SetLightPosition(currentScene->state.player.position);
     program.SetLightPosition2(glm::vec3(19,-5,0));
     
-    Util::DrawText(&program, fontTextureID, "Reach The Light!", 1.0f, -0.5f, glm::vec3(3, -2, 0));
+    //Util::DrawText(&program, fontTextureID, "Reach The Light!", 1.0f, -0.5f, glm::vec3(3, -2, 0));
     
     
     
@@ -186,6 +186,8 @@ void Render() {
 }
 
 void Shutdown() {
+    Mix_FreeMusic(music);
+    Mix_FreeChunk(bounce);
     SDL_Quit();
 }
 

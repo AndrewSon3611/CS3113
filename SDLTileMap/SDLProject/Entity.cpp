@@ -9,6 +9,7 @@ Entity::Entity()
     speed = 0;
     width = 1;
     height = 1;
+    life = 3;
 }
 
 bool Entity::CheckCollision(Entity other)

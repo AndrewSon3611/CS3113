@@ -29,11 +29,26 @@ void Level1::Initialize() {
 void Level1::Update(float deltaTime) {
     state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, state.map, ENEMY_COUNT);
     
-    if (state.player.position.x > 18){
+    
+    if (state.player.life == 0){
+        state.nextLevel = 4;
+    }
+    
+    if (state.player.position.y < -10) {
+        state.player.life -= 1;
         state.nextLevel = 1;
     }
+    if (state.player.position.x > 18){
+        state.nextLevel = 2;
+    }
+    
+
 }
 void Level1::Render(ShaderProgram *program) {
     state.map->Render(program);
     state.player.Render(program);
+    GLuint fontTextureID;
+    fontTextureID = Util::LoadTexture("font1.png");
+    //Util::DrawText(program, fontTextureID, "Reach the Light!", 1.0f, -0.5f, glm::vec3(1.5, -3, 0));
+    Util::DrawText(program, fontTextureID, "Level 1", 0.9f, -0.5f, glm::vec3(1.0, -3, 0));
 }

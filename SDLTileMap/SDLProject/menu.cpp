@@ -30,9 +30,20 @@ void menu::Initialize() {
 void menu::Update(float deltaTime) {
     state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, state.map, ENEMY_COUNT);
     
-}
+    const Uint8 *keys = SDL_GetKeyboardState(NULL);
+
+        if   (keys[SDL_SCANCODE_RETURN])
+        {
+            state.nextLevel = 1;
+            state.player.life = 3;
+        }
+        
+       
+    }
 void menu::Render(ShaderProgram *program) {
     state.map->Render(program);
     state.player.Render(program);
-    Util::DrawText(program, fontTextureID, "Reach The Light! Press Enter", 0.0f, -0.5f, glm::vec3(3, -2, 0));
+    
+    Util::DrawText(program, fontTextureID, "Reach the Light!", 1.0f, -0.5f, glm::vec3(1.5, -3, 0));
+    Util::DrawText(program, fontTextureID, "Press Enter to Start", 0.9f, -0.5f, glm::vec3(1.0, -5, 0));
 }
