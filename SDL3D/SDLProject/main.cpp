@@ -140,7 +140,7 @@ void Initialize() {
     int depth = 0;
     for (int i = 0; i < 3; i++) {
         for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(7,j,depth);
+            state.objects[count].position = glm::vec3(7,j,4);
             state.objects[count].textureID = crateTextureID;
             state.objects[count].mesh = crateMesh;
             state.objects[count].entityType = BOX;
@@ -161,7 +161,7 @@ void Initialize() {
     
     for (int i = 9; i < 11; i++) {
         for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(5,j,-5);
+            state.objects[count].position = glm::vec3(5,j,-10);
             state.objects[count].textureID = crateTextureID;
             state.objects[count].mesh = crateMesh;
             state.objects[count].entityType = BOX;
