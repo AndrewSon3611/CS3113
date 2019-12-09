@@ -19,8 +19,8 @@ bool gameIsRunning = true;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
-#define OBJECT_COUNT 58
-#define ENEMY_COUNT 10
+#define OBJECT_COUNT (84*4)+6
+#define ENEMY_COUNT 5
 
 struct GameState {
     Entity player;
@@ -61,7 +61,7 @@ float cubeTexCoords[] = {
 
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
-    displayWindow = SDL_CreateWindow("3D!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Tag!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     
@@ -89,16 +89,17 @@ void Initialize() {
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    state.player.position =  glm::vec3(9,1,0);
+    state.player.position =  glm::vec3(1,1,0);
+    state.player.entityType = PLAYER;
     state.player.acceleration = glm::vec3(0,0,0);
     //GLuint objectTexture = Util::LoadTexture("crate1_diffuse.png");
-    GLuint objectTextureID = Util::LoadTexture("pikachu.png");
-    Mesh *pikaMesh = new Mesh();
-    pikaMesh->LoadOBJ("pikachu.obj");
+    //GLuint objectTextureID = Util::LoadTexture("pikachu.png");
+    //Mesh *pikaMesh = new Mesh();
+    //pikaMesh->LoadOBJ("pikachu.obj");
     
-    GLuint shipTextureID = Util::LoadTexture("ship.png");
-    Mesh *shipMesh = new Mesh();
-    pikaMesh->LoadOBJ("ship.obj");
+    //GLuint shipTextureID = Util::LoadTexture("ship.png");
+    //Mesh *shipMesh = new Mesh();
+    //pikaMesh->LoadOBJ("ship.obj");
     
     GLuint floorTextureID = Util::LoadTexture("100_1180_seamless.JPG");
     Mesh *floorMesh = new Mesh();
@@ -122,50 +123,90 @@ void Initialize() {
     state.objects[0].rotation = glm::vec3(0,0,0);
     state.objects[0].acceleration = glm::vec3(0,0,0);
     //state.objects[0].vertices = cubeVertices;
-    state.objects[0].velocity = glm::vec3(0,0,10); //constant speed towards you
+    state.objects[0].velocity = glm::vec3(0,0,0); //constant speed towards you
+    state.objects[0].entityType = FLOOR;
     state.objects[0].textureID = floorTextureID;
     state.objects[0].mesh = floorMesh;
     
-    int count = 1;
-    for (int i = 0; i < 11; i++) {
-        for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(1,j,-7);
+    state.objects[1].position = glm::vec3(2, 1, -5);
+    state.objects[1].scale = glm::vec3(1,1,1);
+    state.objects[1].acceleration = glm::vec3(0, 0, 0);
+    state.objects[1].rotation = glm::vec3(0, 0, 0);
+    state.objects[1].textureID = crateTextureID;
+    state.objects[1].mesh = crateMesh;
+    state.objects[1].entityType = BOX;
+    
+    state.objects[2].position = glm::vec3(2, 1, -3);
+    state.objects[2].scale = glm::vec3(1,1,1);
+    state.objects[2].acceleration = glm::vec3(0, 0, 0);
+    state.objects[2].rotation = glm::vec3(0, 0, 0);
+    state.objects[2].textureID = crateTextureID;
+    state.objects[2].mesh = crateMesh;
+    state.objects[2].entityType = BOX;
+    
+    state.objects[3].position = glm::vec3(-7, 1, 5);
+    state.objects[3].scale = glm::vec3(1,1,1);
+    state.objects[3].acceleration = glm::vec3(0, 0, 0);
+    state.objects[3].rotation = glm::vec3(0, 0, 0);
+    state.objects[3].textureID = crateTextureID;
+    state.objects[3].mesh = crateMesh;
+    state.objects[3].entityType = BOX;
+    
+    state.objects[4].position = glm::vec3(-9, 1, -5);
+    state.objects[4].scale = glm::vec3(1,1,1);
+    state.objects[4].acceleration = glm::vec3(0, 0, 0);
+    state.objects[4].rotation = glm::vec3(0, 0, 0);
+    state.objects[4].textureID = crateTextureID;
+    state.objects[4].mesh = crateMesh;
+    state.objects[4].entityType = BOX;
+    
+    state.objects[5].position = glm::vec3(2, 2, -3);
+    state.objects[5].scale = glm::vec3(1,1,1);
+    state.objects[5].acceleration = glm::vec3(0, 0, 0);
+    state.objects[5].rotation = glm::vec3(0, 0, 0);
+    state.objects[5].textureID = crateTextureID;
+    state.objects[5].mesh = crateMesh;
+    state.objects[5].entityType = BOX;
+    
+    int count = 6;
+    for (int i = -10; i <= 10; i++){
+        for (int j = 0; j < 4; j++){
+            state.objects[count].scale = glm::vec3(1,1,1);
+            state.objects[count].position = glm::vec3(i,j+1,-10);
             state.objects[count].textureID = crateTextureID;
             state.objects[count].mesh = crateMesh;
             state.objects[count].entityType = BOX;
-            count += 1;
+            count+=1;
         }
     }
-    
-    int depth = 0;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(7,j,4);
+    for (int i = -10; i <= 10; i++){
+        for (int j = 0; j < 4; j++){
+            state.objects[count].scale = glm::vec3(1,1,1);
+            state.objects[count].position = glm::vec3(i,j+1,10);
             state.objects[count].textureID = crateTextureID;
             state.objects[count].mesh = crateMesh;
             state.objects[count].entityType = BOX;
-            count += 1;
-        }
-        //depth -= 1;
-    }
-    
-    for (int i = 8; i > 5; i--) {
-        for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(3,j,-3);
-            state.objects[count].textureID = crateTextureID;
-            state.objects[count].mesh = crateMesh;
-            state.objects[count].entityType = BOX;
-            count += 1;
+            count+=1;
         }
     }
-    
-    for (int i = 9; i < 11; i++) {
-        for (int j = 1; j < 4; j++){
-            state.objects[count].position = glm::vec3(5,j,-10);
+    for (int z = -10; z <= 10; z++){
+        for (int j = 0; j < 4; j++){
+            state.objects[count].scale = glm::vec3(1,1,1);
+            state.objects[count].position = glm::vec3(-10,j+1,z);
             state.objects[count].textureID = crateTextureID;
             state.objects[count].mesh = crateMesh;
             state.objects[count].entityType = BOX;
-            count += 1;
+            count+=1;
+        }
+    }
+    for (int z = -10; z <= 10; z++){
+        for (int j = 0; j < 4; j++){
+            state.objects[count].scale = glm::vec3(1,1,1);
+            state.objects[count].position = glm::vec3(10,j+1,z);
+            state.objects[count].textureID = crateTextureID;
+            state.objects[count].mesh = crateMesh;
+            state.objects[count].entityType = BOX;
+            count+=1;
         }
     }
     
@@ -189,8 +230,11 @@ void Initialize() {
          state.enemies[i].billboard = true;
          state.enemies[i].textureID = enemyTextureID;
          state.enemies[i].position = glm::vec3(rand() % 20 - 10, 1, rand() % 20 - 10);
-         state.enemies[i].rotation = glm::vec3(0, 0, 0);
-         state.enemies[i].acceleration = glm::vec3(0, 0, 0);
+        state.enemies[i].rotation = glm::vec3(0, 0, 0);
+        state.enemies[i].entityType = ENEMY;
+        state.enemies[i].acceleration = glm::vec3(0, 0, 0);
+        state.enemies[i].aiState = IDLE;
+        state.enemies[i].aiType = WALKER;
     }
 //    state.objects[1].scale = glm::vec3(1,1,1);
 //    state.objects[1].rotation = glm::vec3(0,0,0);
@@ -222,7 +266,7 @@ void ProcessInput() {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_SPACE:
-                        // Some sort of action
+                        //state.player.velocity.y = 1;
                         break;
                         
                 }
@@ -266,10 +310,10 @@ void Update() {
     
     while (deltaTime >= FIXED_TIMESTEP) {
         //state.player.Update(FIXED_TIMESTEP);
-        state.player.Update(FIXED_TIMESTEP, &state.player, state.objects, OBJECT_COUNT);
+        state.player.Update(FIXED_TIMESTEP, &state.player, state.objects, state.enemies, ENEMY_COUNT, OBJECT_COUNT);
         for (int i = 0; i < ENEMY_COUNT; i ++){
-            state.objects[i].Update(FIXED_TIMESTEP, &state.player, state.objects, OBJECT_COUNT);
-        }
+            state.objects[i].Update(FIXED_TIMESTEP, &state.player, state.objects, state.enemies, ENEMY_COUNT, OBJECT_COUNT);
+        } 
         
         deltaTime -= FIXED_TIMESTEP;
     }

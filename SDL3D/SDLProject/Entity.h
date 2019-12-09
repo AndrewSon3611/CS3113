@@ -11,15 +11,23 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Mesh.h"
-enum EntityType { NONE, FLOOR, BOX, ENEMY };
+enum EntityType { NONE, FLOOR, BOX, ENEMY, PLAYER };
+enum AIState{ IDLE, WALKING };
+enum AIType { WALKER };
+
 class Entity {
 public:
+    AIState aiState;
+    AIType aiType;
     EntityType entityType;
     bool billboard;
     float width;
     float height;
     float depth;
     bool CheckCollision(Entity *other);
+    
+    bool isActive;
+    bool isStatic;
     
     glm::vec3 position;
     glm::vec3 velocity;
@@ -33,10 +41,13 @@ public:
     float *texCoords;
     int numVertices;
     
+    void AIwalker(Entity player);
+    void AIupdate(Entity player);
+    
     GLuint textureID;
     
     Entity();
-    void Update(float deltaTime, Entity *player, Entity *objects, int objectCount);
+    void Update(float deltaTime, Entity *player, Entity *objects, Entity *enemies, int enemyCount, int objectCount);
     //void Update(float deltaTime);
     void Render(ShaderProgram *program);
     void DrawBillboard(ShaderProgram *program);
