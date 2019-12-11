@@ -47,7 +47,7 @@ public:
     GLuint textureID;
     
     Entity();
-    void Update(float deltaTime, Entity *player, Entity *objects, Entity *enemies, int enemyCount, int objectCount);
+    void Update(float deltaTime, Entity *player, Entity *objects, int objectCount);
     //void Update(float deltaTime);
     void Render(ShaderProgram *program);
     void DrawBillboard(ShaderProgram *program);

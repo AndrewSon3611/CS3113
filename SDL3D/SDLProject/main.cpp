@@ -14,244 +14,63 @@
 #include "Util.h"
 #include "Entity.h"
 
+#include "scene.h"
+#include "Menu.h"
+#include "Level1.h"
+
+
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
-#define OBJECT_COUNT (84*4)+6
-#define ENEMY_COUNT 5
 
-struct GameState {
-    Entity player;
-    Entity objects[OBJECT_COUNT];
-    Entity enemies[ENEMY_COUNT];
-};
+GLuint fontTextureID;
 
-GameState state;
-float cubeVertices[] = {
-   -0.5,  0.5, -0.5, -0.5,  0.5,  0.5,  0.5,  0.5,  0.5,
-    -0.5,  0.5, -0.5,  0.5,  0.5,  0.5,  0.5,  0.5, -0.5,
-     0.5, -0.5, -0.5,  0.5, -0.5,  0.5, -0.5, -0.5,  0.5,
-     0.5, -0.5, -0.5, -0.5, -0.5,  0.5, -0.5, -0.5, -0.5,
-    -0.5,  0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5,  0.5,
-    -0.5,  0.5, -0.5, -0.5, -0.5,  0.5, -0.5,  0.5,  0.5,
-     0.5,  0.5,  0.5,  0.5, -0.5,  0.5,  0.5, -0.5, -0.5,
-     0.5,  0.5,  0.5,  0.5, -0.5, -0.5,  0.5,  0.5, -0.5,
-    -0.5,  0.5,  0.5, -0.5, -0.5,  0.5,  0.5, -0.5,  0.5,
-    -0.5,  0.5,  0.5,  0.5, -0.5,  0.5,  0.5,  0.5,  0.5,
-     0.5,  0.5, -0.5,  0.5, -0.5, -0.5, -0.5, -0.5, -0.5,
-     0.5,  0.5, -0.5, -0.5, -0.5, -0.5, -0.5,  0.5, -0.5
-};
+Scene* currentScene;
+Scene* sceneList[2];
 
-float cubeTexCoords[] = {
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f
-};
+void SwitchToScene(Scene* scene) {
+    currentScene = scene;
+    currentScene->Initialize();
+}
+
+//GameState state;
+
 
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
     displayWindow = SDL_CreateWindow("Tag!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
-    
+
 #ifdef _WINDOWS
     glewInit();
 #endif
-    
+
     glViewport(0, 0, 1280, 720);
-    
+
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
+    fontTextureID = Util::LoadTexture("font1.png");
     
-    viewMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::mat4(1.0f);
-   //change projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
-    projectionMatrix = glm::perspective(45.0f, 1.777f, 0.1f, 100.0f);
-    program.SetProjectionMatrix(projectionMatrix);
-    program.SetViewMatrix(viewMatrix);
-    program.SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+        viewMatrix = glm::mat4(1.0f);
+        modelMatrix = glm::mat4(1.0f);
+        projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+
+        program.SetProjectionMatrix(projectionMatrix);
+        program.SetViewMatrix(viewMatrix);
+        program.SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        glUseProgram(program.programID);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
-    glUseProgram(program.programID);
-    
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    glDepthFunc(GL_LEQUAL);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    state.player.position =  glm::vec3(1,1,0);
-    state.player.entityType = PLAYER;
-    state.player.acceleration = glm::vec3(0,0,0);
-    //GLuint objectTexture = Util::LoadTexture("crate1_diffuse.png");
-    //GLuint objectTextureID = Util::LoadTexture("pikachu.png");
-    //Mesh *pikaMesh = new Mesh();
-    //pikaMesh->LoadOBJ("pikachu.obj");
-    
-    //GLuint shipTextureID = Util::LoadTexture("ship.png");
-    //Mesh *shipMesh = new Mesh();
-    //pikaMesh->LoadOBJ("ship.obj");
-    
-    GLuint floorTextureID = Util::LoadTexture("100_1180_seamless.JPG");
-    Mesh *floorMesh = new Mesh();
-    floorMesh->LoadOBJ("cube.obj");
-    
-    GLuint crateTextureID = Util::LoadTexture("crate1_diffuse.png");
-    Mesh *crateMesh = new Mesh();
-    crateMesh->LoadOBJ("cube.obj");
-    
-//    state.objects[0].position = glm::vec3(-2,0,-100);
-//    state.objects[0].acceleration = glm::vec3(0,0,1);
-//    state.objects[0].vertices = cubeVertices;
-//    state.objects[0].velocity = glm::vec3(0,0,10); //constant speed towards you
-//    state.objects[0].texCoords = cubeTexCoords;
-//    state.objects[0].numVertices = 36;
-//    state.objects[0].textureID = objectTexture;
-//
-    
-    state.objects[0].position = glm::vec3(0,0,0);
-    state.objects[0].scale = glm::vec3(20,1,20);
-    state.objects[0].rotation = glm::vec3(0,0,0);
-    state.objects[0].acceleration = glm::vec3(0,0,0);
-    //state.objects[0].vertices = cubeVertices;
-    state.objects[0].velocity = glm::vec3(0,0,0); //constant speed towards you
-    state.objects[0].entityType = FLOOR;
-    state.objects[0].textureID = floorTextureID;
-    state.objects[0].mesh = floorMesh;
-    
-    state.objects[1].position = glm::vec3(2, 1, -5);
-    state.objects[1].scale = glm::vec3(1,1,1);
-    state.objects[1].acceleration = glm::vec3(0, 0, 0);
-    state.objects[1].rotation = glm::vec3(0, 0, 0);
-    state.objects[1].textureID = crateTextureID;
-    state.objects[1].mesh = crateMesh;
-    state.objects[1].entityType = BOX;
-    
-    state.objects[2].position = glm::vec3(2, 1, -3);
-    state.objects[2].scale = glm::vec3(1,1,1);
-    state.objects[2].acceleration = glm::vec3(0, 0, 0);
-    state.objects[2].rotation = glm::vec3(0, 0, 0);
-    state.objects[2].textureID = crateTextureID;
-    state.objects[2].mesh = crateMesh;
-    state.objects[2].entityType = BOX;
-    
-    state.objects[3].position = glm::vec3(-7, 1, 5);
-    state.objects[3].scale = glm::vec3(1,1,1);
-    state.objects[3].acceleration = glm::vec3(0, 0, 0);
-    state.objects[3].rotation = glm::vec3(0, 0, 0);
-    state.objects[3].textureID = crateTextureID;
-    state.objects[3].mesh = crateMesh;
-    state.objects[3].entityType = BOX;
-    
-    state.objects[4].position = glm::vec3(-9, 1, -5);
-    state.objects[4].scale = glm::vec3(1,1,1);
-    state.objects[4].acceleration = glm::vec3(0, 0, 0);
-    state.objects[4].rotation = glm::vec3(0, 0, 0);
-    state.objects[4].textureID = crateTextureID;
-    state.objects[4].mesh = crateMesh;
-    state.objects[4].entityType = BOX;
-    
-    state.objects[5].position = glm::vec3(2, 2, -3);
-    state.objects[5].scale = glm::vec3(1,1,1);
-    state.objects[5].acceleration = glm::vec3(0, 0, 0);
-    state.objects[5].rotation = glm::vec3(0, 0, 0);
-    state.objects[5].textureID = crateTextureID;
-    state.objects[5].mesh = crateMesh;
-    state.objects[5].entityType = BOX;
-    
-    int count = 6;
-    for (int i = -10; i <= 10; i++){
-        for (int j = 0; j < 4; j++){
-            state.objects[count].scale = glm::vec3(1,1,1);
-            state.objects[count].position = glm::vec3(i,j+1,-10);
-            state.objects[count].textureID = crateTextureID;
-            state.objects[count].mesh = crateMesh;
-            state.objects[count].entityType = BOX;
-            count+=1;
-        }
-    }
-    for (int i = -10; i <= 10; i++){
-        for (int j = 0; j < 4; j++){
-            state.objects[count].scale = glm::vec3(1,1,1);
-            state.objects[count].position = glm::vec3(i,j+1,10);
-            state.objects[count].textureID = crateTextureID;
-            state.objects[count].mesh = crateMesh;
-            state.objects[count].entityType = BOX;
-            count+=1;
-        }
-    }
-    for (int z = -10; z <= 10; z++){
-        for (int j = 0; j < 4; j++){
-            state.objects[count].scale = glm::vec3(1,1,1);
-            state.objects[count].position = glm::vec3(-10,j+1,z);
-            state.objects[count].textureID = crateTextureID;
-            state.objects[count].mesh = crateMesh;
-            state.objects[count].entityType = BOX;
-            count+=1;
-        }
-    }
-    for (int z = -10; z <= 10; z++){
-        for (int j = 0; j < 4; j++){
-            state.objects[count].scale = glm::vec3(1,1,1);
-            state.objects[count].position = glm::vec3(10,j+1,z);
-            state.objects[count].textureID = crateTextureID;
-            state.objects[count].mesh = crateMesh;
-            state.objects[count].entityType = BOX;
-            count+=1;
-        }
-    }
-    
- /*   state.objects[1].position = glm::vec3(0,1,-5); // z equals far away ness
-    state.objects[1].textureID = crateTextureID;
-    state.objects[1].mesh = crateMesh;
-    state.objects[1].entityType = BOX;
-    
-    state.objects[2].position = glm::vec3(1,1,-5); // z equals far away ness
-    state.objects[2].textureID = crateTextureID;
-    state.objects[2].mesh = crateMesh;
-    state.objects[2].entityType = BOX;
-    
-    state.objects[3].position = glm::vec3(1,2,-5); // z equals far away ness
-    state.objects[3].textureID = crateTextureID;
-    state.objects[3].mesh = crateMesh;
-    state.objects[3].entityType = BOX;
-    */
-    GLuint enemyTextureID = Util::LoadTexture("me.png");
-    for (int i = 0; i < ENEMY_COUNT; i++) {
-         state.enemies[i].billboard = true;
-         state.enemies[i].textureID = enemyTextureID;
-         state.enemies[i].position = glm::vec3(rand() % 20 - 10, 1, rand() % 20 - 10);
-        state.enemies[i].rotation = glm::vec3(0, 0, 0);
-        state.enemies[i].entityType = ENEMY;
-        state.enemies[i].acceleration = glm::vec3(0, 0, 0);
-        state.enemies[i].aiState = IDLE;
-        state.enemies[i].aiType = WALKER;
-    }
-//    state.objects[1].scale = glm::vec3(1,1,1);
-//    state.objects[1].rotation = glm::vec3(0,0,0);
-//    state.objects[1].acceleration = glm::vec3(0,0,0);
-//    //state.objects[0].vertices = cubeVertices;
-//    state.objects[1].velocity = glm::vec3(0,0,0); //constant speed towards you
-//    state.objects[1].textureID = crateTextureID;
-//    state.objects[1].mesh = crateMesh;
-    
-//    state.objects[1].position = glm::vec3(2,0,-100); // z equals far away ness
-//    state.objects[1].acceleration = glm::vec3(0,0,1); //z = falling towards you
-//    state.objects[1].vertices = cubeVertices;
-//    state.objects[1].velocity = glm::vec3(0,0,10); //constant speed towards you
-//    state.objects[1].texCoords = cubeTexCoords;
-//    state.objects[1].numVertices = 36;
-//    state.objects[1].textureID = objectTexture;
-    
+    sceneList[0] = new Menu();
+    sceneList[1] = new Level1();
+    SwitchToScene(sceneList[0]);
 }
 
 void ProcessInput() {
@@ -266,30 +85,29 @@ void ProcessInput() {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_SPACE:
-                        //state.player.velocity.y = 1;
+                        // Some sort of action
                         break;
-                        
                 }
                 break;
         }
     }
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_A]){
-        state.player.rotation.y += 1.0f;
+        currentScene->state.player.rotation.y += 1.0f;
     }
     else if(keys[SDL_SCANCODE_D]){
-        state.player.rotation.y -= 1.0f;
+        currentScene->state.player.rotation.y -= 1.0f;
     }
-    state.player.velocity.x = 0;
-    state.player.velocity.z = 0;
+    currentScene->state.player.velocity.x = 0;
+    currentScene->state.player.velocity.z = 0;
     
     if(keys[SDL_SCANCODE_W]){
-        state.player.velocity.z = cos(glm::radians(state.player.rotation.y)) * -2.0f;
-        state.player.velocity.x = sin(glm::radians(state.player.rotation.y)) * -2.0f;
+        currentScene->state.player.velocity.z = cos(glm::radians(currentScene->state.player.rotation.y)) * -2.0f;
+        currentScene->state.player.velocity.x = sin(glm::radians(currentScene->state.player.rotation.y)) * -2.0f;
     }
     else if (keys[SDL_SCANCODE_S]){
-        state.player.velocity.z = cos(glm::radians(state.player.rotation.y)) * 2.0f;
-        state.player.velocity.x = sin(glm::radians(state.player.rotation.y)) * 2.0f;
+        currentScene->state.player.velocity.z = cos(glm::radians(currentScene->state.player.rotation.y)) * 2.0f;
+        currentScene->state.player.velocity.x = sin(glm::radians(currentScene->state.player.rotation.y)) * 2.0f;
     }
 }
 
@@ -303,43 +121,38 @@ void Update() {
     lastTicks = ticks;
     
     deltaTime += accumulator;
+    
     if (deltaTime < FIXED_TIMESTEP) {
         accumulator = deltaTime;
         return;
     }
     
     while (deltaTime >= FIXED_TIMESTEP) {
-        //state.player.Update(FIXED_TIMESTEP);
-        state.player.Update(FIXED_TIMESTEP, &state.player, state.objects, state.enemies, ENEMY_COUNT, OBJECT_COUNT);
-        for (int i = 0; i < ENEMY_COUNT; i ++){
-            state.objects[i].Update(FIXED_TIMESTEP, &state.player, state.objects, state.enemies, ENEMY_COUNT, OBJECT_COUNT);
-        } 
-        
+        currentScene->Update(FIXED_TIMESTEP);
+          
         deltaTime -= FIXED_TIMESTEP;
     }
     
     accumulator = deltaTime;
     
     viewMatrix = glm::mat4(1.0);
-    viewMatrix = glm::translate(viewMatrix, -state.player.position);
-    viewMatrix = glm::mat4(1.0f);
-    viewMatrix = glm::rotate(viewMatrix, glm::radians(state.player.rotation.y), glm::vec3(0,-1.0f,0));
-    viewMatrix = glm::translate(viewMatrix, -state.player.position);
-
+    viewMatrix = glm::rotate(viewMatrix, glm::radians(currentScene->state.player.rotation.y), glm::vec3(0,-1.0f,0));
+    viewMatrix = glm::translate(viewMatrix, -(currentScene->state.player.position));
 }
 
 
 void Render() {
-    //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     program.SetViewMatrix(viewMatrix);
-    //state.player.Render(&program);
+   /*
     for (int i = 0; i < OBJECT_COUNT; i++) {
         state.objects[i].Render(&program);
     }
-    for (int i = 0; i < ENEMY_COUNT; i++) {
+   for (int i = 0; i < ENEMY_COUNT; i++) {
         state.enemies[i].Render(&program);
     }
+    */
+    currentScene->Render(&program);
     SDL_GL_SwapWindow(displayWindow);
 }
 
