@@ -81,9 +81,7 @@ void Initialize() {
     SwitchToScene(sceneList[0]);
     
     
-    currentScene->state.player.position =  glm::vec3(1,1,0);
-    currentScene->state.player.entityType = PLAYER;
-    currentScene->astate.player.acceleration = glm::vec3(0,0,0);
+
     }
 void ProcessInput() {
     SDL_Event event;

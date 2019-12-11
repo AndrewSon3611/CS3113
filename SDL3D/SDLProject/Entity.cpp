@@ -68,15 +68,15 @@ void Entity::AIwalker(Entity player)
 {
     switch(aiState){
         case IDLE:
-            if (glm::distance(position, player.position)< 2.5){
+            if (glm::distance(position, player.position)< 1.0){
                 aiState = WALKING;
             }
             break;
         case WALKING:
-            if (player.position.x > position.x){
-                velocity.x = 0.7;
+            if (player.position.z > position.z){
+                velocity.z = 0.7;
             } else{
-            velocity.x = -0.7f;
+            velocity.z = -0.7f;
             }
             break;
     }
