@@ -28,12 +28,12 @@ bool Entity::CheckCollision(Entity *other)
 //    scale = glm::vec3(1,1,1);
 //}
 //void Entity::forward(float speed);
-void Entity::Update(float deltaTime, Entity *player, Entity *objects, int objectCount)
+void Entity::Update(float deltaTime, Entity player, Entity *enemies, Entity *objects, int objectCount, int enemyCount)
 {
     if (billboard) {
         //Turn towards player
-        float directionX = position.x - player->position.x;
-        float directionZ = position.z - player->position.z;
+        float directionX = position.x - player.position.x;
+        float directionZ = position.z - player.position.z;
         rotation.y = glm::degrees(atan2f(directionX, directionZ));
         
         velocity.z = cos((glm::radians(rotation.y)) * 1.0f);

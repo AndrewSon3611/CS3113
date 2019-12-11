@@ -10,14 +10,14 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
-
 #include "Util.h"
 #include "Entity.h"
-
+#include <SDL_mixer.h>
 #include "scene.h"
 #include "Menu.h"
 #include "Level1.h"
 
+Mix_Music* music;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
@@ -43,6 +43,10 @@ void Initialize() {
     displayWindow = SDL_CreateWindow("Tag!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
+    
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("edm.mp3");
+    Mix_PlayMusic(music, -1);
 
 #ifdef _WINDOWS
     glewInit();
@@ -55,7 +59,8 @@ void Initialize() {
     
         viewMatrix = glm::mat4(1.0f);
         modelMatrix = glm::mat4(1.0f);
-        projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+        //projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+        projectionMatrix = glm::perspective(45.0f, 1.777f, 0.1f, 100.0f);
 
         program.SetProjectionMatrix(projectionMatrix);
         program.SetViewMatrix(viewMatrix);
@@ -65,14 +70,21 @@ void Initialize() {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(GL_TRUE);
+        glDepthFunc(GL_LEQUAL);
 
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
     sceneList[0] = new Menu();
     sceneList[1] = new Level1();
     SwitchToScene(sceneList[0]);
-}
-
+    
+    
+    currentScene->state.player.position =  glm::vec3(1,1,0);
+    currentScene->state.player.entityType = PLAYER;
+    currentScene->astate.player.acceleration = glm::vec3(0,0,0);
+    }
 void ProcessInput() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -144,19 +156,13 @@ void Update() {
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     program.SetViewMatrix(viewMatrix);
-   /*
-    for (int i = 0; i < OBJECT_COUNT; i++) {
-        state.objects[i].Render(&program);
-    }
-   for (int i = 0; i < ENEMY_COUNT; i++) {
-        state.enemies[i].Render(&program);
-    }
-    */
+    
     currentScene->Render(&program);
     SDL_GL_SwapWindow(displayWindow);
 }
 
 void Shutdown() {
+    Mix_FreeMusic(music);
     SDL_Quit();
 }
 
@@ -167,8 +173,10 @@ int main(int argc, char* argv[]) {
         ProcessInput();
         Update();
         Render();
+        if (currentScene->state.nextLevel >= 0) SwitchToScene(sceneList[currentScene->state.nextLevel]);
     }
     
     Shutdown();
     return 0;
 }
+

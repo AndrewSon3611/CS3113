@@ -35,9 +35,7 @@ float cubeTexCoords[] = {
 
 
 void Level1::Initialize() {
-        state.player.position =  glm::vec3(1,1,0);
-        state.player.entityType = PLAYER;
-        state.player.acceleration = glm::vec3(0,0,0);
+
         state.nextLevel = -1;
 
         
@@ -165,9 +163,9 @@ void Level1::Initialize() {
     
 }
 void Level1::Update(float deltaTime) {
-    state.player.Update(deltaTime, NULL, 0, 0);
+    state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, 0);
     for (int i = 0; i < ENEMY_COUNT; i ++){
-        state.objects[i].Update(deltaTime, &state.player, state.objects, OBJECT_COUNT);
+        state.objects[i].Update(deltaTime, state.player, state.enemies, state.objects, OBJECT_COUNT, ENEMY_COUNT);
     }
 }
 
