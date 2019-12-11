@@ -16,8 +16,10 @@
 #include "scene.h"
 #include "Menu.h"
 #include "Level1.h"
+#include "Lose.h"
 
 Mix_Music* music;
+//Mix_Chunk* touch;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
@@ -28,14 +30,12 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 GLuint fontTextureID;
 
 Scene* currentScene;
-Scene* sceneList[2];
+Scene* sceneList[3];
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
     currentScene->Initialize();
 }
-
-//GameState state;
 
 
 void Initialize() {
@@ -47,6 +47,7 @@ void Initialize() {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
     music = Mix_LoadMUS("edm.mp3");
     Mix_PlayMusic(music, -1);
+    //touch = Mix_LoadWAV("touch.wav");
 
 #ifdef _WINDOWS
     glewInit();
@@ -78,10 +79,8 @@ void Initialize() {
     
     sceneList[0] = new Menu();
     sceneList[1] = new Level1();
+    sceneList[2] = new Lose();
     SwitchToScene(sceneList[0]);
-    
-    
-
     }
 void ProcessInput() {
     SDL_Event event;
@@ -104,6 +103,7 @@ void ProcessInput() {
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_A]){
         currentScene->state.player.rotation.y += 1.0f;
+
     }
     else if(keys[SDL_SCANCODE_D]){
         currentScene->state.player.rotation.y -= 1.0f;
@@ -161,6 +161,7 @@ void Render() {
 
 void Shutdown() {
     Mix_FreeMusic(music);
+    //Mix_FreeChunk(touch);
     SDL_Quit();
 }
 

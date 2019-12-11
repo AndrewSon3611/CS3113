@@ -36,8 +36,8 @@ void Entity::Update(float deltaTime, Entity player, Entity *enemies, Entity *obj
         float directionZ = position.z - player.position.z;
         rotation.y = glm::degrees(atan2f(directionX, directionZ));
         
-        velocity.z = cos((glm::radians(rotation.y)) * 1.0f);
-        velocity.x = sin((glm::radians(rotation.y)) * 1.0f);
+        velocity.z = cos(glm::radians(rotation.y)) * -1.0f;
+        velocity.x = sin(glm::radians(rotation.y)) * -1.0f;
         position += velocity * deltaTime;
         return;
     }
@@ -49,11 +49,22 @@ void Entity::Update(float deltaTime, Entity player, Entity *enemies, Entity *obj
         if (objects[i].entityType == FLOOR) continue;
         if (CheckCollision(&objects[i])) {
             position = previousPosition;
-            if(this->entityType == PLAYER && objects[i].entityType == ENEMY)
-                objects[i].isActive = false;
+            // We hit a wall
             break;
-    }
+        }
         
+    }
+    
+    if (this->entityType == PLAYER)
+    {
+        for (int i = 0; i < enemyCount; i++)
+        {
+            if (CheckCollision(&enemies[i])) {
+                // We hit an enemy
+                
+                break;
+            }
+        }
     }
 }
 //void Entity::Update(float deltaTime)
@@ -95,6 +106,8 @@ void Entity::Render(ShaderProgram *program) {
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
     modelMatrix = glm::scale(modelMatrix, scale);
+    
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.y), glm::vec3(0,1,0));
     
     program->SetModelMatrix(modelMatrix);
 //    modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.y), glm::vec3(0,1,0));

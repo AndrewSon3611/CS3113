@@ -1,7 +1,10 @@
 #include "Level1.h"
+#include <SDL_mixer.h>
 
 #define OBJECT_COUNT (84*4)+6
 #define ENEMY_COUNT 5
+
+Mix_Chunk* touch;
 
 float cubeVertices[] = {
    -0.5,  0.5, -0.5, -0.5,  0.5,  0.5,  0.5,  0.5,  0.5,
@@ -39,10 +42,11 @@ void Level1::Initialize() {
         state.player.position =  glm::vec3(1,1,0);
         state.player.entityType = PLAYER;
         state.player.acceleration = glm::vec3(0,0,0);
-    
+    state.player.billboard = false;
         state.nextLevel = -1;
+    
+        touch = Mix_LoadWAV("touch.wav");
 
-        
         GLuint floorTextureID = Util::LoadTexture("100_1180_seamless.JPG");
         Mesh *floorMesh = new Mesh();
         floorMesh->LoadOBJ("cube.obj");
@@ -167,9 +171,19 @@ void Level1::Initialize() {
     
 }
 void Level1::Update(float deltaTime) {
-    state.player.Update(deltaTime, state.player, state.enemies, NULL, 0, 0);
+    state.player.Update(deltaTime, state.player, state.enemies, state.objects, OBJECT_COUNT, ENEMY_COUNT);
+    
+    
     for (int i = 0; i < ENEMY_COUNT; i ++){
         state.enemies[i].Update(deltaTime, state.player, state.enemies, state.objects, OBJECT_COUNT, ENEMY_COUNT);
+    }
+    for (int i = 0; i < ENEMY_COUNT; i++) {
+        if
+            (state.player.CheckCollision(&state.enemies[i])) {
+            state.nextLevel = 2;
+            Mix_PlayChannel(-1, touch, 0);
+
+        }
     }
 }
 
